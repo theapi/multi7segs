@@ -15,11 +15,6 @@ class Max72xx {
         byte _load;
 
     public:
-
-       static const byte Blank = B1111;
-       static const byte H = B1100;
-       static const byte E = B1011;
-       static const byte L = B1101;
     
       /**
        * Constructor
@@ -33,6 +28,11 @@ class Max72xx {
        * Initialise the driver.
        */
       void setup();
+
+      /**
+       * Sends the serial data to the target chip.
+       */
+      void sendPacketToChip(int8_t chip, int8_t address, int8_t data);
 
       /**
        * Sends the 16 bit serial packet to the driver
