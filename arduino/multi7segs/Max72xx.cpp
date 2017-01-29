@@ -1,12 +1,10 @@
 
 #include "Max72xx.h"
 
-Max72xx::Max72xx() {
- 
-}
+Max72xx::Max72xx() {}
 
 void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
-   _din = dataPin;
+  _din = dataPin;
   _clk = clkPin;
   _load = latchPin;
   
@@ -56,64 +54,58 @@ void Max72xx::sendPacketToChip(int8_t chip, int8_t address, int8_t data) {
  * Sends the 16 bit serial packet to the driver
  */
 void Max72xx::sendPacket(int8_t address, int8_t data) {
-  //digitalWrite(_load, LOW);
   // shift out highbyte
   shiftOut(_din, _clk, MSBFIRST, address);
   // shift out lowbyte
   shiftOut(_din, _clk, MSBFIRST, data);
-  //digitalWrite(_load, HIGH);
 }
 
-void Max72xx::setScanLimit(uint8_t limit) {
-  sendPacket(0x0B, limit);
+void Max72xx::setScanLimit(int8_t chip, uint8_t limit) {
+  sendPacketToChip(chip, 0x0B, limit);
 }
 
-void Max72xx::setIntensity(uint8_t intensity) {
-  sendPacket(0x0A, intensity);
+void Max72xx::setIntensity(int8_t chip, uint8_t intensity) {
+  sendPacketToChip(chip, 0x0A, intensity);
 }
 
 /**
  * Set the display mode on.
  */
-void Max72xx::testOn() {
-  sendPacket(0x0F, B00000001);
+void Max72xx::testOn(int8_t chip) {
+  sendPacketToChip(chip, 0x0F, B00000001);
 }
 
 /**
  * Set the display mode off.
  */
-void Max72xx::testOff() {
-  sendPacket(0x0F, B00000000);
+void Max72xx::testOff(int8_t chip) {
+  sendPacketToChip(chip, 0x0F, B00000000);
 }
 
-void Max72xx::shutdown(bool b) {
+void Max72xx::shutdown(int8_t chip, bool b) {
   if (b) {
-    sendPacket(0x0C, 0);
+    sendPacketToChip(chip, 0x0C, 0);
   } else {
-    sendPacket(0x0C, 1);
+    sendPacketToChip(chip, 0x0C, 1);
   }
 }
 
-void Max72xx::displayOn() {
-  shutdown(false);
+void Max72xx::displayOn(int8_t chip) {
+  shutdown(chip, false);
 }
 
-void Max72xx::displayOff() {
-  shutdown(true);
+void Max72xx::displayOff(int8_t chip) {
+  shutdown(chip, true);
 }
 
-void Max72xx::decodeMode(int8_t data) {
-  sendPacket(0x09, data);
+void Max72xx::decodeMode(int8_t chip, int8_t data) {
+  sendPacketToChip(chip, 0x09, data);
 }
 
 /**
- * Send data to a digit.
+ * Send data to the register.
  */
-void Max72xx::setDigit(int8_t address, int8_t data, boolean dp) {
-  if (dp) {
-    sendPacket(address, data + B10000000);
-  } else {
-    sendPacket(address, data);
-  }
+void Max72xx::setRegister(int8_t chip, int8_t address, int8_t data) {
+    sendPacketToChip(chip, address, data);
 }
 

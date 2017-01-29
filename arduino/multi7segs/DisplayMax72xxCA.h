@@ -1,4 +1,9 @@
 
+#ifndef DisplayMax72xxCA_NUM_DIGITS
+#define DisplayMax72xxCA_NUM_DIGITS 24
+#endif
+
+
 #ifndef DisplayMax72xxCA_h
 #define DisplayMax72xxCA_h
 
@@ -9,7 +14,7 @@ class DisplayMax72xxCA {
 
       uint8_t _numDigits;
       uint8_t _numChips;
-        
+      uint8_t _buffer[DisplayMax72xxCA_NUM_DIGITS];
 
     public:
 
@@ -31,7 +36,11 @@ class DisplayMax72xxCA {
        * clockPin   the clock
        * latchPin   the data latch
        */
-      void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numDigits);
+      void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin);
+
+      void setDigit(uint8_t digit, uint8_t value);
+
+      void update();
 
 };
 

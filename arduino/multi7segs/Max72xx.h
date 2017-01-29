@@ -42,30 +42,30 @@ class Max72xx {
 
       /**
        * Set the number of digits (or rows) to be displayed.
-       * See datasheet for sideeffects of the scanlimit on the brightness
+       * See datasheet for side effects of the scanlimit on the brightness
        * of the display.
        * @param limit  The number of digits to be displayed (1..8)
        */
-      void setScanLimit(uint8_t limit);
+      void setScanLimit(int8_t chip, uint8_t limit);
 
       /**
        * 0 - 15
        */
-      void setIntensity(uint8_t intensity);
+      void setIntensity(int8_t chip, uint8_t intensity);
 
-      void testOn();
+      void testOn(int8_t chip);
 
-      void testOff();
+      void testOff(int8_t chip);
 
-      void shutdown(bool b);
+      void shutdown(int8_t chip, bool b);
 
-      void displayOn();
+      void displayOn(int8_t chip);
 
-      void displayOff();
+      void displayOff(int8_t chip);
       
-      void decodeMode(int8_t data);
+      void decodeMode(int8_t chip, int8_t data);
 
-      void setDigit(int8_t address, int8_t data, boolean dp);
+      void setRegister(int8_t chip, int8_t address, int8_t data);
 };
 
 #endif

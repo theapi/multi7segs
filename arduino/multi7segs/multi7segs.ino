@@ -6,12 +6,12 @@
  *  
  */
 
+//DisplayMax72xxCA_NUM_DIGITS 24
 #include "DisplayMax72xxCA.h"
 
 #define DRIVER_DIN  D5
 #define DRIVER_SCK  D6
 #define DRIVER_LOAD D7
-#define DRIVER_NUM_DIGITS 24 // 3 Max7219 ICs used
 
 const byte DEBUG_LED = 16;
 
@@ -22,7 +22,7 @@ void setup() {
   digitalWrite(DEBUG_LED, LOW);  // LOW = ON
 
 
-  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_DIGITS);
+  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
   
   
 
@@ -42,18 +42,21 @@ void setup() {
  * 
  */
 
-  /*
-  driver.setDigit(1, B10000000, false);
-  driver.setDigit(2, B10000001, false);
-  driver.setDigit(3, B10000001, false);
-  driver.setDigit(4, B10000000, false);
-  driver.setDigit(5, B10000000, false);
-  driver.setDigit(6, B10000000, false);
-  driver.setDigit(7, B10000000, false);
-  driver.setDigit(8, B10000000, false);
+  
+  display.driver.setRegister(1, 0x01, B10000000);
+  display.driver.setRegister(1, 0x02, B10000001);
+  display.driver.setRegister(1, 0x03, B10000001);
+  display.driver.setRegister(1, 0x04, B10000000);
+  display.driver.setRegister(1, 0x05, B10000000);
+  display.driver.setRegister(1, 0x06, B10000000);
+  display.driver.setRegister(1, 0x07, B10000000);
+  display.driver.setRegister(1, 0x08, B10000000);
 
-  driver.displayOn();
-  */
+  display.setDigit(4, B11111111);
+
+  display.update();
+  display.driver.displayOn(1);
+  
 }
 
 void loop() {
