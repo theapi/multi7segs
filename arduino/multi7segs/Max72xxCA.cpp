@@ -1,13 +1,13 @@
 
-#include "Max72xx.h"
+#include "Max72xxCA.h"
 
-Max72xx::Max72xx(int dataPin, int clkPin, int latchPin) {
+Max72xxCA::Max72xxCA(int dataPin, int clkPin, int latchPin) {
   _din = dataPin;
   _clk = clkPin;
   _load = latchPin;
 }
 
-void Max72xx::setup() {
+void Max72xxCA::setup() {
   pinMode(_din, OUTPUT);
   pinMode(_clk, OUTPUT);
   pinMode(_load, OUTPUT);
@@ -29,7 +29,7 @@ void Max72xx::setup() {
  * first three chips receive no-op commands, and the
  * fourth receives the intended data.
  */
-void Max72xx::sendPacketToChip(int8_t chip, int8_t address, int8_t data) {
+void Max72xxCA::sendPacketToChip(int8_t chip, int8_t address, int8_t data) {
   digitalWrite(_load, LOW);
 
   //@todo make this smarter
@@ -57,7 +57,7 @@ void Max72xx::sendPacketToChip(int8_t chip, int8_t address, int8_t data) {
 /**
  * Sends the 16 bit serial packet to the driver
  */
-void Max72xx::sendPacket(int8_t address, int8_t data) {
+void Max72xxCA::sendPacket(int8_t address, int8_t data) {
   //digitalWrite(_load, LOW);
   // shift out highbyte
   shiftOut(_din, _clk, MSBFIRST, address);
@@ -66,29 +66,29 @@ void Max72xx::sendPacket(int8_t address, int8_t data) {
   //digitalWrite(_load, HIGH);
 }
 
-void Max72xx::setScanLimit(byte limit) {
+void Max72xxCA::setScanLimit(byte limit) {
   sendPacket(0x0B, limit);
 }
 
-void Max72xx::setIntensity(byte intensity) {
+void Max72xxCA::setIntensity(byte intensity) {
   sendPacket(0x0A, intensity);
 }
 
 /**
  * Set the display mode on.
  */
-void Max72xx::testOn() {
+void Max72xxCA::testOn() {
   sendPacket(0x0F, B00000001);
 }
 
 /**
  * Set the display mode off.
  */
-void Max72xx::testOff() {
+void Max72xxCA::testOff() {
   sendPacket(0x0F, B00000000);
 }
 
-void Max72xx::shutdown(bool b) {
+void Max72xxCA::shutdown(bool b) {
   if (b) {
     sendPacket(0x0C, 0);
   } else {
@@ -96,26 +96,26 @@ void Max72xx::shutdown(bool b) {
   }
 }
 
-void Max72xx::displayOn() {
+void Max72xxCA::displayOn() {
   shutdown(false);
 }
 
-void Max72xx::displayOff() {
+void Max72xxCA::displayOff() {
   shutdown(true);
 }
 
-void Max72xx::decodeMode(int8_t data) {
+void Max72xxCA::decodeMode(int8_t data) {
   sendPacket(0x09, data);
 }
 
 /**
  * Send data to a digit.
  */
-void Max72xx::setDigit(int8_t address, int8_t data, boolean dp) {
+void Max72xxCA::setDigit(int8_t address, int8_t data, boolean dp) {
   if (dp) {
-    sendPacketToChip(1, address, data + B10000000);
+    sendPacket(address, data + B10000000);
   } else {
-    sendPacketToChip(1, address, data);
+    sendPacket(address, data);
   }
 }
 
