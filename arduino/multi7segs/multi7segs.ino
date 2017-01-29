@@ -11,7 +11,7 @@
 #define DRIVER_DIN  D5
 #define DRIVER_SCK  D6
 #define DRIVER_LOAD D7
-#define DRIVER_NUM_CHIPS 3 // 3 Max7219 ICs used
+#define DRIVER_NUM_DIGITS 24 // 3 Max7219 ICs used
 
 const byte DEBUG_LED = 16;
 
@@ -22,9 +22,9 @@ void setup() {
   digitalWrite(DEBUG_LED, LOW);  // LOW = ON
 
 
-  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_CHIPS);
+  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_DIGITS);
   
-  display.driver.decodeMode(0x00);
+  
 
 
 /**

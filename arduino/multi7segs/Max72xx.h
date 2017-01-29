@@ -13,8 +13,6 @@ class Max72xx {
         uint8_t _clk;
         // Driven LOW to latch the data
         uint8_t _load;
-        // How many MAX72xx ICs are used
-        uint8_t _numChips;
 
     public:
     
@@ -30,7 +28,7 @@ class Max72xx {
        * clockPin   the clock
        * latchPin   the data latch
        */
-      void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips);
+      void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin);
 
       /**
        * Sends the serial data to the target chip.

@@ -7,6 +7,8 @@
 class DisplayMax72xxCA {
     private :
 
+      uint8_t _numDigits;
+      uint8_t _numChips;
         
 
     public:
@@ -29,7 +31,7 @@ class DisplayMax72xxCA {
        * clockPin   the clock
        * latchPin   the data latch
        */
-      void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips);
+      void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numDigits);
 
 };
 
