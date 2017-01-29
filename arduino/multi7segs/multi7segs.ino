@@ -11,10 +11,11 @@
 #define DRIVER_DIN  D5
 #define DRIVER_SCK  D6
 #define DRIVER_LOAD D7
+#define DRIVER_NUM_CHIPS 3 // 3 Max7219 ICs used
 
 const byte DEBUG_LED = 16;
 
-Max72xxCA driver = Max72xxCA(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
+Max72xxCA driver = Max72xxCA(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_CHIPS);
 
 void setup() {
   pinMode(DEBUG_LED, OUTPUT);

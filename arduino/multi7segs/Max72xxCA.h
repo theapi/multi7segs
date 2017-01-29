@@ -8,11 +8,13 @@ class Max72xxCA {
     private :
 
         // Data is shifted out of this pin
-        byte _din;
+        uint8_t _din;
         // The clock is signaled on this pin
-        byte _clk;
+        uint8_t _clk;
         // Driven LOW to latch the data
-        byte _load;
+        uint8_t _load;
+        // How many MAX72xx ICs are used
+        uint8_t _numChips;
 
     public:
     
@@ -22,7 +24,7 @@ class Max72xxCA {
        * clockPin   the clock
        * latchPin   the data latch
        */
-      Max72xxCA(int dataPin, int clkPin, int latchPin);
+      Max72xxCA(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips);
 
       /**
        * Initialise the driver.
@@ -45,12 +47,12 @@ class Max72xxCA {
        * of the display.
        * @param limit  The number of digits to be displayed (1..8)
        */
-      void setScanLimit(byte limit);
+      void setScanLimit(uint8_t limit);
 
       /**
        * 0 - 15
        */
-      void setIntensity(byte intensity);
+      void setIntensity(uint8_t intensity);
 
       void testOn();
 

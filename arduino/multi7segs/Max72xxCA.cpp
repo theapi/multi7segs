@@ -1,10 +1,11 @@
 
 #include "Max72xxCA.h"
 
-Max72xxCA::Max72xxCA(int dataPin, int clkPin, int latchPin) {
+Max72xxCA::Max72xxCA(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips) {
   _din = dataPin;
   _clk = clkPin;
   _load = latchPin;
+  _numChips = numChips;
 }
 
 void Max72xxCA::setup() {
@@ -66,11 +67,11 @@ void Max72xxCA::sendPacket(int8_t address, int8_t data) {
   //digitalWrite(_load, HIGH);
 }
 
-void Max72xxCA::setScanLimit(byte limit) {
+void Max72xxCA::setScanLimit(uint8_t limit) {
   sendPacket(0x0B, limit);
 }
 
-void Max72xxCA::setIntensity(byte intensity) {
+void Max72xxCA::setIntensity(uint8_t intensity) {
   sendPacket(0x0A, intensity);
 }
 
