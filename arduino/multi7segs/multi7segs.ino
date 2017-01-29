@@ -6,7 +6,7 @@
  *  
  */
 
-#include "Max72xxCA.h"
+#include "Max72xx.h"
 
 #define DRIVER_DIN  D5
 #define DRIVER_SCK  D6
@@ -15,7 +15,7 @@
 
 const byte DEBUG_LED = 16;
 
-Max72xxCA driver = Max72xxCA(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_CHIPS);
+Max72xx driver = Max72xx(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_CHIPS);
 
 void setup() {
   pinMode(DEBUG_LED, OUTPUT);

@@ -1,10 +1,10 @@
 
-#ifndef Max72xxCA_h
-#define Max72xxCA_h
+#ifndef Max72xx_h
+#define Max72xx_h
 
 #include "Arduino.h"
 
-class Max72xxCA {
+class Max72xx {
     private :
 
         // Data is shifted out of this pin
@@ -24,7 +24,7 @@ class Max72xxCA {
        * clockPin   the clock
        * latchPin   the data latch
        */
-      Max72xxCA(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips);
+      Max72xx(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips);
 
       /**
        * Initialise the driver.
