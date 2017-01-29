@@ -6,7 +6,7 @@
  *  
  */
 
-#include "Max72xx.h"
+#include "DisplayMax72xxCA.h"
 
 #define DRIVER_DIN  D5
 #define DRIVER_SCK  D6
@@ -15,16 +15,16 @@
 
 const byte DEBUG_LED = 16;
 
-Max72xx driver = Max72xx(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_CHIPS);
+DisplayMax72xxCA display = DisplayMax72xxCA();
 
 void setup() {
   pinMode(DEBUG_LED, OUTPUT);
   digitalWrite(DEBUG_LED, LOW);  // LOW = ON
 
 
-  driver.setup();
+  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD, DRIVER_NUM_CHIPS);
   
-  driver.decodeMode(0x00);
+  display.driver.decodeMode(0x00);
 
 
 /**
@@ -42,7 +42,7 @@ void setup() {
  * 
  */
 
-  
+  /*
   driver.setDigit(1, B10000000, false);
   driver.setDigit(2, B10000001, false);
   driver.setDigit(3, B10000001, false);
@@ -53,7 +53,7 @@ void setup() {
   driver.setDigit(8, B10000000, false);
 
   driver.displayOn();
-  
+  */
 }
 
 void loop() {

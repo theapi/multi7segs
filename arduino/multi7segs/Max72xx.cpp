@@ -1,14 +1,16 @@
 
 #include "Max72xx.h"
 
-Max72xx::Max72xx(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips) {
-  _din = dataPin;
+Max72xx::Max72xx() {
+ 
+}
+
+void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips) {
+   _din = dataPin;
   _clk = clkPin;
   _load = latchPin;
   _numChips = numChips;
-}
-
-void Max72xx::setup() {
+  
   pinMode(_din, OUTPUT);
   pinMode(_clk, OUTPUT);
   pinMode(_load, OUTPUT);

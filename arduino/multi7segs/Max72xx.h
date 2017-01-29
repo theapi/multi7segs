@@ -20,16 +20,17 @@ class Max72xx {
     
       /**
        * Constructor
+       */
+      Max72xx();
+
+      /**
+       * Initialise the driver.
+       * 
        * dataPin    shifts the data out
        * clockPin   the clock
        * latchPin   the data latch
        */
-      Max72xx(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips);
-
-      /**
-       * Initialise the driver.
-       */
-      void setup();
+      void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips);
 
       /**
        * Sends the serial data to the target chip.
