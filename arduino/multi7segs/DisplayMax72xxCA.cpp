@@ -50,7 +50,6 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t val) {
 
   uint8_t wire;
   uint8_t bit;
-
   // Each digit is on one of 8 wires.
   wire = digit % 8;
   switch (wire) {
@@ -66,30 +65,38 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t val) {
   
   // digits are grouped in 8, due the 8 registers.
   // buffer indexes for this digit start at digit / 8
+  Serial.println(" setDigit");
+  Serial.print(" digit:"); Serial.print(digit);
+  Serial.print(" val:"); Serial.print(val, BIN);
+  Serial.print(" wire:"); Serial.print(wire);
+  Serial.print(" bit:"); Serial.print(bit);
+
+    Serial.println(" buffer:"); 
   uint8_t i = digit / 8;
   for (i; i < 8; i++)  {
-    _buffer[i] |= (val & (1 << bit));
+    Serial.print(" bitshift:"); Serial.print((val & (1 << bit)), BIN); Serial.print(" "); 
+    _buffer[i] |= (val & (1 << bit)); //@todo fix this
+    Serial.println( _buffer[i], BIN);
   }
   
+  Serial.println();
 }
 
 void DisplayMax72xxCA::update() {
   //...
   Serial.println(" Update");
   uint8_t j = 0;
-  uint8_t chip = 0;
+  uint8_t chip = 1;
   uint8_t address = 0;
   for (uint8_t i = 0; i < DisplayMax72xxCA_NUM_DIGITS; i++) {
-    
-    if (j == 8) {
+    address = j + 1;
+    if (j == 7) {
       chip++;
       j = 0;
     } else {
       j++;
     }
 
-    address = j + 1;
-    
     Serial.print(chip);
     Serial.print(" : ");
     Serial.print(address, HEX);

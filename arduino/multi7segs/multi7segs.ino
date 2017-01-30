@@ -56,10 +56,11 @@ void setup() {
   display.driver.setRegister(1, 0x07, B10000000);
   display.driver.setRegister(1, 0x08, B10000000);
 
- // display.setDigit(4, B11111111);
-
- //display.update();
- display.driver.displayOn(1);
+//  display.setDigit(7, B11111111);
+//  display.setDigit(1, B00000110);
+//  display.update();
+  
+  display.driver.displayOn(1);
   
 }
 
