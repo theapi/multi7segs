@@ -47,16 +47,20 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t val) {
  * 
  */
 
+  uint8_t wire;
   uint8_t bit;
-  switch (digit) {
-    case 1: bit = 3; break;
-    case 2: bit = 7; break;
-    case 3: bit = 2; break;
-    case 4: bit = 4; break;
-    case 5: bit = 0; break;
-    case 6: bit = 5; break;
-    case 7: bit = 1; break;
-    case 8: bit = 6; break;
+
+  // Each digit is on one of 8 wires.
+  wire = digit % 8;
+  switch (wire) {
+    case 0: bit = 3; break;
+    case 1: bit = 7; break;
+    case 2: bit = 2; break;
+    case 3: bit = 4; break;
+    case 4: bit = 0; break;
+    case 5: bit = 5; break;
+    case 6: bit = 1; break;
+    case 7: bit = 6; break;
   }
 
   // digits are grouped in 8, due the 8 registers.
