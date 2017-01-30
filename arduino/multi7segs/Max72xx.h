@@ -33,12 +33,12 @@ class Max72xx {
       /**
        * Sends the serial data to the target chip.
        */
-      void sendPacketToChip(int8_t chip, int8_t address, int8_t data);
+      void sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data);
 
       /**
        * Sends the 16 bit serial packet to the driver
        */
-      void sendPacket(int8_t address, int8_t data);
+      void sendPacket(uint8_t address, uint8_t data);
 
       /**
        * Set the number of digits (or rows) to be displayed.
@@ -46,26 +46,26 @@ class Max72xx {
        * of the display.
        * @param limit  The number of digits to be displayed (1..8)
        */
-      void setScanLimit(int8_t chip, uint8_t limit);
+      void setScanLimit(uint8_t chip, uint8_t limit);
 
       /**
        * 0 - 15
        */
-      void setIntensity(int8_t chip, uint8_t intensity);
+      void setIntensity(uint8_t chip, uint8_t intensity);
 
-      void testOn(int8_t chip);
+      void testOn(uint8_t chip);
 
-      void testOff(int8_t chip);
+      void testOff(uint8_t chip);
 
-      void shutdown(int8_t chip, bool b);
+      void shutdown(uint8_t chip, bool b);
 
-      void displayOn(int8_t chip);
+      void displayOn(uint8_t chip);
 
-      void displayOff(int8_t chip);
+      void displayOff(uint8_t chip);
       
-      void decodeMode(int8_t chip, int8_t data);
+      void decodeMode(uint8_t chip, uint8_t data);
 
-      void setRegister(int8_t chip, int8_t address, int8_t data);
+      void setRegister(uint8_t chip, uint8_t address, uint8_t data);
 };
 
 #endif

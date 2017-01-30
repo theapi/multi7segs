@@ -4,7 +4,7 @@
 DisplayMax72xxCA::DisplayMax72xxCA() {}
 
 void DisplayMax72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
-
+   Serial.println(" setup");
   _numDigits = DisplayMax72xxCA_NUM_DIGITS; // Num digits is set as a #define so as to avoid dynamically sized buffer.
   _numChips = _numDigits / 8; // 8 digits per Max72xx
   if (_numDigits % 8 > 0) {
@@ -21,7 +21,8 @@ void DisplayMax72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) 
     driver.setIntensity(i, 5);
     driver.decodeMode(i, 0x00);
   }
-  
+
+  Serial.println(" end setup");
 }
 
 /**
@@ -62,7 +63,7 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t val) {
     case 6: bit = 1; break;
     case 7: bit = 6; break;
   }
-
+  
   // digits are grouped in 8, due the 8 registers.
   // buffer indexes for this digit start at digit / 8
   uint8_t i = digit / 8;
@@ -74,6 +75,7 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t val) {
 
 void DisplayMax72xxCA::update() {
   //...
+  Serial.println(" Update");
   uint8_t j = 0;
   uint8_t chip = 0;
   uint8_t address = 0;
@@ -88,6 +90,12 @@ void DisplayMax72xxCA::update() {
 
     address = j + 1;
     
+    Serial.print(chip);
+    Serial.print(" : ");
+    Serial.print(address, HEX);
+    Serial.print(" : ");
+    Serial.print( _buffer[i], BIN);
+    Serial.println();
     driver.sendPacketToChip(chip, address, _buffer[i]);
     
   }

@@ -18,6 +18,11 @@ const byte DEBUG_LED = 16;
 DisplayMax72xxCA display = DisplayMax72xxCA();
 
 void setup() {
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println("-----------------");
+  Serial.println();
+  
   pinMode(DEBUG_LED, OUTPUT);
   digitalWrite(DEBUG_LED, LOW);  // LOW = ON
 
@@ -41,7 +46,6 @@ void setup() {
  * B10000000 : 2
  * 
  */
-
   
   display.driver.setRegister(1, 0x01, B10000000);
   display.driver.setRegister(1, 0x02, B10000001);
@@ -52,10 +56,10 @@ void setup() {
   display.driver.setRegister(1, 0x07, B10000000);
   display.driver.setRegister(1, 0x08, B10000000);
 
-  display.setDigit(4, B11111111);
+ // display.setDigit(4, B11111111);
 
-  display.update();
-  display.driver.displayOn(1);
+ //display.update();
+ display.driver.displayOn(1);
   
 }
 
