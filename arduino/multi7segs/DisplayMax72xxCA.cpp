@@ -29,7 +29,7 @@ void DisplayMax72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) 
  * Give the binary/hex representation of the 7 segment digit.
  * e.g., 4, B11111111 = 8 displayed on digit 4
  */
-void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t val) {
+void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t data) {
   // Need to set 8 registers for a digit, BUT do not clober existing digit values.
   // So OR the value for this digit with those of the other digits for the chip the digit is on.
   // Which bit is used for the digit is determined by the wiring.
@@ -48,38 +48,46 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t val) {
  * 
  */
 
-  uint8_t wire;
-  uint8_t bit;
-  // Each digit is on one of 8 wires.
-  wire = digit % 8;
-  switch (wire) {
-    case 0: bit = 3; break;
-    case 1: bit = 7; break;
-    case 2: bit = 2; break;
-    case 3: bit = 4; break;
-    case 4: bit = 0; break;
-    case 5: bit = 5; break;
-    case 6: bit = 1; break;
-    case 7: bit = 6; break;
-  }
+  
   
   // digits are grouped in 8, due the 8 registers.
   // buffer indexes for this digit start at digit / 8
   Serial.println(" setDigit");
   Serial.print(" digit:"); Serial.print(digit);
-  Serial.print(" val:"); Serial.print(val, BIN);
-  Serial.print(" wire:"); Serial.print(wire);
-  Serial.print(" bit:"); Serial.print(bit);
+  Serial.print(" data:"); Serial.print(data, BIN);
 
     Serial.println(" buffer:"); 
-  uint8_t i = digit / 8;
-  for (i; i < 8; i++)  {
-    Serial.print(" bitshift:"); Serial.print((val & (1 << bit)), BIN); Serial.print(" "); 
-    _buffer[i] |= (val & (1 << bit)); //@todo fix this
-    Serial.println( _buffer[i], BIN);
+  uint8_t reg = digit / 8;
+  uint8_t i;
+  for (i = 0; i < 8; i++)  {
+    // Read each bit in the data and put it in the buffer for its register.
+    reg += getRegister(i);
+    
+    Serial.print(" bitshift:"); Serial.print(!!(data & (1 << i)), BIN); Serial.print(" "); 
+    _buffer[reg] |= !!(data & (1 << i));
+    Serial.println( _buffer[reg], BIN);
   }
   
   Serial.println();
+}
+
+/**
+ * Map the registers to the wires.
+ */
+uint8_t DisplayMax72xxCA::getRegister(uint8_t bit) {
+  switch (bit) {
+    case 0: return 4;
+    case 1: return 7;
+    case 2: return 2;
+    case 3: return 3;
+    case 4: return 0;
+    case 5: return 5;
+    case 6: return 1;
+    case 7: return 6;
+  }
+
+  // Shouldn't get here.
+  return 0;
 }
 
 void DisplayMax72xxCA::update() {

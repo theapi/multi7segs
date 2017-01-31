@@ -39,6 +39,7 @@ class DisplayMax72xxCA {
       void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin);
 
       void setDigit(uint8_t digit, uint8_t value);
+      uint8_t getRegister(uint8_t bit);
 
       void update();
 
