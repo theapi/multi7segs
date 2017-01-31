@@ -18,6 +18,10 @@ class DisplayMax72xxCA {
 
     public:
 
+      static const uint8_t number_1 = B00000110;
+      //...
+      static const uint8_t number_8 = B10111111;
+
       /** 
        * The Max7219 driver 
        */
@@ -40,6 +44,7 @@ class DisplayMax72xxCA {
 
       void setDigit(uint8_t digit, uint8_t value);
       uint8_t getRegister(uint8_t bit);
+      uint8_t getColumn(uint8_t digit);
 
       void update();
 

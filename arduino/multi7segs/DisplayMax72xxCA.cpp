@@ -33,57 +33,71 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t data) {
   // Need to set 8 registers for a digit, BUT do not clober existing digit values.
   // So OR the value for this digit with those of the other digits for the chip the digit is on.
   // Which bit is used for the digit is determined by the wiring.
-  /**
- * Map of common anode wiring:
- * 
- *    Bit    : Digit
- * B00000001 : 5 
- * B00000010 : 7
- * B00000100 : 3
- * B00001000 : 1
- * B00010000 : 4
- * B00100000 : 6
- * B01000000 : 8
- * B10000000 : 2
- * 
- */
-
-  
-  
   // digits are grouped in 8, due the 8 registers.
-  // buffer indexes for this digit start at digit / 8
+  // buffer indexes for this digit start at digit-1 / 8
+  // digit numbers start at 1 not 0.
+  uint8_t reg_base = ((digit -1) / 8) * 8;
+  uint8_t reg;
+  uint8_t col;
+  uint8_t bit_value;
+
+  col = getColumn(digit);
   Serial.println(" setDigit");
   Serial.print(" digit:"); Serial.print(digit);
+  Serial.print(" col:"); Serial.print(col);
+  Serial.print(" reg_base:"); Serial.print(reg_base);
   Serial.print(" data:"); Serial.print(data, BIN);
+  Serial.println();
 
-    Serial.println(" buffer:"); 
-  uint8_t reg = digit / 8;
-  uint8_t i;
-  for (i = 0; i < 8; i++)  {
+  for (uint8_t i = 0; i < 8; i++)  {
     // Read each bit in the data and put it in the buffer for its register.
-    reg += getRegister(i);
-    
-    Serial.print(" bitshift:"); Serial.print(!!(data & (1 << i)), BIN); Serial.print(" "); 
-    _buffer[reg] |= !!(data & (1 << i));
-    Serial.println( _buffer[reg], BIN);
+    reg = reg_base + getRegister(i);
+    bit_value = bitRead(data, i);
+    Serial.print(" reg:"); Serial.print(reg);
+    Serial.print(" bit_value:"); Serial.print( bit_value , BIN); Serial.print(" "); 
+    _buffer[reg] |= (bit_value << col);
+    Serial.print(" buffer:");  Serial.println( _buffer[reg], BIN);
   }
   
   Serial.println();
 }
 
 /**
- * Map the registers to the wires.
+ * Get the "column" in the 8 registers this digits bits are set.
+ * 
+ * This is effected by the wiring.
+ */
+uint8_t DisplayMax72xxCA::getColumn(uint8_t digit) {
+  switch (digit % 8) {
+    case 0: return 6;
+    case 1: return 3;
+    case 2: return 7;
+    case 3: return 2;
+    case 4: return 4;
+    case 5: return 0;
+    case 6: return 5;
+    case 7: return 1;
+  }
+
+  // Shouldn't get here.
+  return 0;
+}
+
+/**
+ * Translate the data bit to the register it should be set in.
+ * 
+ * This is effected by the wiring.
  */
 uint8_t DisplayMax72xxCA::getRegister(uint8_t bit) {
   switch (bit) {
-    case 0: return 4;
-    case 1: return 7;
+    case 0: return 0;
+    case 1: return 1;
     case 2: return 2;
     case 3: return 3;
-    case 4: return 0;
+    case 4: return 4;
     case 5: return 5;
-    case 6: return 1;
-    case 7: return 6;
+    case 6: return 6;
+    case 7: return 7;
   }
 
   // Shouldn't get here.
@@ -98,12 +112,7 @@ void DisplayMax72xxCA::update() {
   uint8_t address = 0;
   for (uint8_t i = 0; i < DisplayMax72xxCA_NUM_DIGITS; i++) {
     address = j + 1;
-    if (j == 7) {
-      chip++;
-      j = 0;
-    } else {
-      j++;
-    }
+    
 
     Serial.print(chip);
     Serial.print(" : ");
@@ -112,6 +121,13 @@ void DisplayMax72xxCA::update() {
     Serial.print( _buffer[i], BIN);
     Serial.println();
     driver.sendPacketToChip(chip, address, _buffer[i]);
+
+    if (j == 7) {
+      chip++;
+      j = 0;
+    } else {
+      j++;
+    }
     
   }
   
