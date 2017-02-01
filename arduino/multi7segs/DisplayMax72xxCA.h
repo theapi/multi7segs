@@ -18,10 +18,21 @@ class DisplayMax72xxCA {
 
     public:
 
-      static const uint8_t number_1 = B00000110;
-      //...
-      static const uint8_t number_8 = B10111111;
-
+      static const uint8_t number_0 = B01111011;
+      static const uint8_t number_1 = B00001001;
+      static const uint8_t number_2 = B01100111;
+      static const uint8_t number_3 = B01101101;
+      static const uint8_t number_4 = B00011101;
+      static const uint8_t number_5 = B01111100;
+      static const uint8_t number_6 = B00111110;
+      static const uint8_t number_7 = B01001001;
+      static const uint8_t number_8 = B01111111;
+      static const uint8_t colon    = B10000000;
+      static const uint8_t blank    = B00000000;
+      static const uint8_t char_H   = B00011111;
+      static const uint8_t char_E   = B01110110;
+      static const uint8_t char_L   = B00110010;
+      
       /** 
        * The Max7219 driver 
        */

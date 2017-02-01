@@ -29,8 +29,16 @@ void setup() {
 
   display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
 
-  display.setDigit(6, display.number_1);
-  display.setDigit(2, display.number_8);
+  display.setDigit(1, display.number_0);
+  display.setDigit(2, display.char_L);
+  display.setDigit(3, display.char_E);
+  display.setDigit(4, display.char_H);
+  display.setDigit(5, display.number_5);
+  display.setDigit(6, display.number_6);
+  display.setDigit(7, display.number_7 | display.colon);
+  display.setDigit(8, display.number_8);
+
+  
   display.setDigit(23, display.number_8);
   display.update();
   
