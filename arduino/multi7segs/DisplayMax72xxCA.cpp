@@ -55,7 +55,7 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t data) {
     bit_value = bitRead(data, i);
     Serial.print(" reg:"); Serial.print(reg);
     Serial.print(" bit_value:"); Serial.print( bit_value , BIN); Serial.print(" "); 
-    _buffer[reg] |= (bit_value << col);
+    bitWrite(_buffer[reg], col, bit_value);
     Serial.print(" buffer:");  Serial.println( _buffer[reg], BIN);
   }
   
