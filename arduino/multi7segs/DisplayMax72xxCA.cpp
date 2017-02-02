@@ -18,7 +18,7 @@ void DisplayMax72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) 
   for (uint8_t i = 1; i <= _numChips; i++) {
     driver.shutdown(i, 1);
     driver.setScanLimit(i, 7);
-    driver.setIntensity(i, 5);
+    driver.setIntensity(i, 10);
     driver.decodeMode(i, 0x00);
   }
 
