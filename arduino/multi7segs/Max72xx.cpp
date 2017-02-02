@@ -26,20 +26,23 @@ void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
  * fourth receives the intended data.
  */
 void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
-//  Serial.print(" sendPacketToChip: ");
-//  Serial.print(chip);
-//  Serial.println();
+  Serial.print(" sendPacketToChip: ");
+  Serial.print(chip);
+  Serial.println();
   
   digitalWrite(_load, LOW);
 
   //sendPacket(address, data);
 
-  //@todo make this smarter
+  //@todo make this work :)
   switch (chip) {
     case 1:
-      sendPacket(0x00, 0x00);
-      sendPacket(0x00, 0x00);
+    //sendPacket(address, data);
+      //sendPacket(0x00, 0x00);
+      //sendPacket(0x00, 0x00);
       sendPacket(address, data);
+      sendPacket(address, data);
+      sendPacket(address, data); // This works but shouldn't. It should be the first one ???
       break;
     case 2:
       sendPacket(0x00, 0x00);
@@ -61,11 +64,11 @@ void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
  */
 void Max72xx::sendPacket(uint8_t address, uint8_t data) {
 
-//Serial.print(" sendPacket: ");
-//Serial.print(address, HEX);
-//    Serial.print(" : ");
-//    Serial.print(data, HEX);
-//    Serial.println();
+Serial.print(" sendPacket: ");
+Serial.print(address, HEX);
+    Serial.print(" : ");
+    Serial.print(data, HEX);
+    Serial.println();
 
   // shift out highbyte
   shiftOut(_din, _clk, MSBFIRST, address);

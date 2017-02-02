@@ -39,8 +39,16 @@ void setup() {
   display.setDigit(7, display.char_E);
   display.setDigit(8, display.char_H);
 
+  display.setDigit(9, display.number_4);
+  display.setDigit(10, display.number_3);
+  display.setDigit(11, display.number_2 | display.colon);
+  display.setDigit(12, display.number_1);
+  display.setDigit(13, display.number_0);
+  display.setDigit(14, display.char_L);
+  display.setDigit(15, display.char_E);
+  display.setDigit(16, display.char_H);
   
-  display.setDigit(23, display.number_8);
+  //display.setDigit(23, display.number_8);
   display.update();
   
   display.driver.displayOn(1);
@@ -48,6 +56,7 @@ void setup() {
 }
 
 void loop() {
- 
+ //delay(1);
+ //display.update();
 }
 
