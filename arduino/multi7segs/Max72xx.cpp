@@ -34,15 +34,12 @@ void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
 
   //sendPacket(address, data);
 
-  //@todo make this work :)
+
   switch (chip) {
     case 1:
-    //sendPacket(address, data);
-      //sendPacket(0x00, 0x00);
-      //sendPacket(0x00, 0x00);
+      sendPacket(0x00, 0x00);
+      sendPacket(0x00, 0x00);
       sendPacket(address, data);
-      sendPacket(address, data);
-      sendPacket(address, data); // This works but shouldn't. It should be the first one ???
       break;
     case 2:
       sendPacket(0x00, 0x00);
