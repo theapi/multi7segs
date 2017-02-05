@@ -9,9 +9,9 @@
 //Max72xxCA_NUM_DIGITS 24
 #include "Max72xxCA.h"
 
-#define DRIVER_DIN  D5
-#define DRIVER_SCK  D6
-#define DRIVER_LOAD D7
+#define DRIVER_DIN  14 // D5 on NodeMcu
+#define DRIVER_SCK  12 // D6 on NodeMcu
+#define DRIVER_LOAD 13 // D7 on NodeMcu
 
 const byte DEBUG_LED = 16;
 
