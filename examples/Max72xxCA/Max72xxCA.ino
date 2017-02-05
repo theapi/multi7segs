@@ -29,9 +29,11 @@ void setup() {
 
   display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
 
+  display.setDigitToNumber(1, 4);
+  display.setDigitToNumber(2, 3);
   
-  display.setDigit(1, display.number_4);
-  display.setDigit(2, display.number_3);
+//  display.setDigit(1, display.number_4);
+//  display.setDigit(2, display.number_3);
   display.setDigit(3, display.number_2 | display.colon);
   display.setDigit(4, display.number_1);
   display.setDigit(5, display.number_0);
@@ -63,7 +65,13 @@ void setup() {
 }
 
 void loop() {
- //delay(1);
- //display.update();
+ delay(1000);
+
+ display.setDigitToNumber(9, random(0, 8));
+ display.setDigitToNumber(10, random(0, 8));
+ display.setDigitToNumber(11, random(0, 8));
+ display.setDigitToNumber(12, random(0, 8));
+ 
+ display.update();
 }
 

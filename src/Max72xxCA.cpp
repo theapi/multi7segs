@@ -11,7 +11,7 @@ void Max72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
     // Not exactly divisable by 8, so add another chip.
     _numChips++;
   }
-  
+
   driver.setup(dataPin, clkPin, latchPin, _numChips);
 
   // Initialise all chips
@@ -29,6 +29,10 @@ void Max72xxCA::displaysOn() {
   for (uint8_t i = 1; i <= _numChips; i++) {
     driver.displayOn(i);
   }
+}
+
+void Max72xxCA::setDigitToNumber(uint8_t digit, uint8_t index) {
+  setDigit(digit, _chars[index]);
 }
 
 /**
@@ -60,17 +64,17 @@ void Max72xxCA::setDigit(uint8_t digit, uint8_t data) {
     reg = reg_base + getRegister(i);
     bit_value = bitRead(data, i);
     Serial.print(" reg:"); Serial.print(reg);
-    Serial.print(" bit_value:"); Serial.print( bit_value , BIN); Serial.print(" "); 
+    Serial.print(" bit_value:"); Serial.print( bit_value , BIN); Serial.print(" ");
     bitWrite(_buffer[reg], col, bit_value);
     Serial.print(" buffer:");  Serial.println( _buffer[reg], BIN);
   }
-  
+
   Serial.println();
 }
 
 /**
  * Get the "column" in the 8 registers this digits bits are set.
- * 
+ *
  * This is effected by the wiring.
  */
 uint8_t Max72xxCA::getColumn(uint8_t digit) {
@@ -91,7 +95,7 @@ uint8_t Max72xxCA::getColumn(uint8_t digit) {
 
 /**
  * Translate the data bit to the register it should be set in.
- * 
+ *
  * This is effected by the wiring.
  */
 uint8_t Max72xxCA::getRegister(uint8_t bit) {
@@ -118,7 +122,7 @@ void Max72xxCA::update() {
   uint8_t address = 0;
   for (uint8_t i = 0; i < Max72xxCA_NUM_DIGITS; i++) {
     address = j + 1;
-    
+
 
     Serial.print(chip);
     Serial.print(" : ");
@@ -134,10 +138,10 @@ void Max72xxCA::update() {
     } else {
       j++;
     }
-    
+
   }
-  
-  
+
+
   //...
 }
 
