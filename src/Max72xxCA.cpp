@@ -12,7 +12,7 @@ void Max72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
     _numChips++;
   }
   
-  driver.setup(dataPin, clkPin, latchPin);
+  driver.setup(dataPin, clkPin, latchPin, _numChips);
 
   // Initialise all chips
   for (uint8_t i = 1; i <= _numChips; i++) {

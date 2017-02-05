@@ -3,10 +3,11 @@
 
 Max72xx::Max72xx() {}
 
-void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
+void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t numChips) {
   _din = dataPin;
   _clk = clkPin;
   _load = latchPin;
+  _numChips = numChips;
   
   pinMode(_din, OUTPUT);
   pinMode(_clk, OUTPUT);
@@ -32,9 +33,16 @@ void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
   
   digitalWrite(_load, LOW);
 
-  //sendPacket(address, data);
+  for (uint8_t i = 1; i <= _numChips; i++) {
+	  if (i == chip) {
+		  sendPacket(address, data);
+	  } else {
+		  // Send no-ops
+		  sendPacket(0x00, 0x00);
+	  }
+  }
 
-
+/*
   switch (chip) {
     case 1:
       sendPacket(0x00, 0x00);
@@ -52,7 +60,7 @@ void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
       sendPacket(0x00, 0x00);
       break;
   }
-
+*/
   digitalWrite(_load, HIGH);
 }
 
