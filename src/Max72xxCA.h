@@ -15,7 +15,7 @@ class Max72xxCA {
       uint8_t _numDigits;
       uint8_t _numChips;
       uint8_t _buffer[Max72xxCA_NUM_DIGITS];
-       uint8_t _chars[14] = {
+      uint8_t _chars[14] = {
         B01111011,
         B00001001,
         B01100111,
@@ -72,6 +72,7 @@ class Max72xxCA {
       void displaysOn();
       void setDigit(uint8_t digit, uint8_t value);
       void setDigitToNumber(uint8_t digit, uint8_t index);
+      void setDigitToNumber(uint8_t digit, uint8_t index, uint8_t colon);
       uint8_t getRegister(uint8_t bit);
       uint8_t getColumn(uint8_t digit);
 

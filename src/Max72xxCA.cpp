@@ -31,6 +31,14 @@ void Max72xxCA::displaysOn() {
   }
 }
 
+void Max72xxCA::setDigitToNumber(uint8_t digit, uint8_t index, uint8_t set_colon) {
+  if (set_colon) {
+    setDigit(digit, _chars[index] | colon);
+  } else {
+    setDigitToNumber(digit, index);
+  }
+}
+
 void Max72xxCA::setDigitToNumber(uint8_t digit, uint8_t index) {
   setDigit(digit, _chars[index]);
 }

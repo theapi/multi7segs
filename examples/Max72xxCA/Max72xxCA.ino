@@ -34,7 +34,9 @@ void setup() {
   
 //  display.setDigit(1, display.number_4);
 //  display.setDigit(2, display.number_3);
-  display.setDigit(3, display.number_2 | display.colon);
+//  display.setDigit(3, display.number_2 | display.colon);
+  display.setDigitToNumber(3, 2, true);
+
   display.setDigit(4, display.number_1);
   display.setDigit(5, display.number_0);
   display.setDigit(6, display.char_L);
