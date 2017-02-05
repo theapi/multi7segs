@@ -8,7 +8,7 @@ void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t n
   _clk = clkPin;
   _load = latchPin;
   _numChips = numChips;
-  
+
   pinMode(_din, OUTPUT);
   pinMode(_clk, OUTPUT);
   pinMode(_load, OUTPUT);
@@ -17,9 +17,9 @@ void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t n
 
 /**
  * Sends the serial data to the target chip.
- * 
+ *
  * For example, if
- * four MAX7219s are cascaded, then to write to the 
+ * four MAX7219s are cascaded, then to write to the
  * fourth chip, sent the desired 16-bit word, followed by
  * three no-op codes (hex 0xXX0X, see Table 2). When
  * LOAD/CS goes high, data is latched in all devices. The
@@ -30,37 +30,19 @@ void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
   Serial.print(" sendPacketToChip: ");
   Serial.print(chip);
   Serial.println();
-  
+
   digitalWrite(_load, LOW);
 
-  for (uint8_t i = 1; i <= _numChips; i++) {
-	  if (i == chip) {
-		  sendPacket(address, data);
-	  } else {
-		  // Send no-ops
-		  sendPacket(0x00, 0x00);
-	  }
+  // Send packets for furthest chips first.
+  for (uint8_t i = _numChips; i > 0; i--) {
+    if (i == chip) {
+      sendPacket(address, data);
+    } else {
+      // Send no-ops
+      sendPacket(0x00, 0x00);
+    }
   }
 
-/*
-  switch (chip) {
-    case 1:
-      sendPacket(0x00, 0x00);
-      sendPacket(0x00, 0x00);
-      sendPacket(address, data);
-      break;
-    case 2:
-      sendPacket(0x00, 0x00);
-      sendPacket(address, data);
-      sendPacket(0x00, 0x00);
-      break;
-    case 3:
-      sendPacket(address, data);
-      sendPacket(0x00, 0x00);
-      sendPacket(0x00, 0x00);
-      break;
-  }
-*/
   digitalWrite(_load, HIGH);
 }
 
