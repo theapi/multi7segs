@@ -47,8 +47,16 @@ void setup() {
   display.setDigit(14, display.number_6);
   display.setDigit(15, display.number_7);
   display.setDigit(16, display.number_8);
+
+  display.setDigit(17, display.number_8);
+  display.setDigit(18, display.number_7);
+  display.setDigit(19, display.number_6);
+  display.setDigit(20, display.number_5);
+  display.setDigit(21, display.number_4);
+  display.setDigit(22, display.number_3);
+  display.setDigit(23, display.number_2);
+  display.setDigit(24, display.number_1);
   
-  //display.setDigit(23, display.number_8);
   display.update();
   
   display.displaysOn();
