@@ -1,11 +1,11 @@
 
-#include "DisplayMax72xxCA.h"
+#include "Max72xxCA.h"
 
-DisplayMax72xxCA::DisplayMax72xxCA() {}
+Max72xxCA::Max72xxCA() {}
 
-void DisplayMax72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
+void Max72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
    Serial.println(" setup");
-  _numDigits = DisplayMax72xxCA_NUM_DIGITS; // Num digits is set as a #define so as to avoid dynamically sized buffer.
+  _numDigits = Max72xxCA_NUM_DIGITS; // Num digits is set as a #define so as to avoid dynamically sized buffer.
   _numChips = _numDigits / 8; // 8 digits per Max72xx
   if (_numDigits % 8 > 0) {
     // Not exactly divisable by 8, so add another chip.
@@ -29,7 +29,7 @@ void DisplayMax72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) 
  * Give the binary/hex representation of the 7 segment digit.
  * e.g., 4, B11111111 = 8 displayed on digit 4
  */
-void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t data) {
+void Max72xxCA::setDigit(uint8_t digit, uint8_t data) {
   // Need to set 8 registers for a digit, BUT do not clober existing digit values.
   // So OR the value for this digit with those of the other digits for the chip the digit is on.
   // Which bit is used for the digit is determined by the wiring.
@@ -67,7 +67,7 @@ void DisplayMax72xxCA::setDigit(uint8_t digit, uint8_t data) {
  * 
  * This is effected by the wiring.
  */
-uint8_t DisplayMax72xxCA::getColumn(uint8_t digit) {
+uint8_t Max72xxCA::getColumn(uint8_t digit) {
   switch (digit % 8) {
     case 0: return 6;
     case 1: return 3;
@@ -88,7 +88,7 @@ uint8_t DisplayMax72xxCA::getColumn(uint8_t digit) {
  * 
  * This is effected by the wiring.
  */
-uint8_t DisplayMax72xxCA::getRegister(uint8_t bit) {
+uint8_t Max72xxCA::getRegister(uint8_t bit) {
   switch (bit) {
     case 0: return 0;
     case 1: return 1;
@@ -104,13 +104,13 @@ uint8_t DisplayMax72xxCA::getRegister(uint8_t bit) {
   return 0;
 }
 
-void DisplayMax72xxCA::update() {
+void Max72xxCA::update() {
   //...
   Serial.println(" Update");
   uint8_t j = 0;
   uint8_t chip = 1;
   uint8_t address = 0;
-  for (uint8_t i = 0; i < DisplayMax72xxCA_NUM_DIGITS; i++) {
+  for (uint8_t i = 0; i < Max72xxCA_NUM_DIGITS; i++) {
     address = j + 1;
     
 

@@ -6,8 +6,8 @@
  *  
  */
 
-//DisplayMax72xxCA_NUM_DIGITS 24
-#include "DisplayMax72xxCA.h"
+//Max72xxCA_NUM_DIGITS 24
+#include "Max72xxCA.h"
 
 #define DRIVER_DIN  D5
 #define DRIVER_SCK  D6
@@ -15,7 +15,7 @@
 
 const byte DEBUG_LED = 16;
 
-DisplayMax72xxCA display = DisplayMax72xxCA();
+Max72xxCA display = Max72xxCA();
 
 void setup() {
   Serial.begin(115200);

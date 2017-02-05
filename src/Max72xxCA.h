@@ -1,20 +1,20 @@
 
-#ifndef DisplayMax72xxCA_NUM_DIGITS
-#define DisplayMax72xxCA_NUM_DIGITS 24
+#ifndef Max72xxCA_NUM_DIGITS
+#define Max72xxCA_NUM_DIGITS 24
 #endif
 
 
-#ifndef DisplayMax72xxCA_h
-#define DisplayMax72xxCA_h
+#ifndef Max72xxCA_h
+#define Max72xxCA_h
 
 #include "Max72xx.h"
 
-class DisplayMax72xxCA {
+class Max72xxCA {
     private :
 
       uint8_t _numDigits;
       uint8_t _numChips;
-      uint8_t _buffer[DisplayMax72xxCA_NUM_DIGITS];
+      uint8_t _buffer[Max72xxCA_NUM_DIGITS];
 
     public:
 
@@ -42,7 +42,7 @@ class DisplayMax72xxCA {
        * Constructor
        *
        */
-      DisplayMax72xxCA();
+      Max72xxCA();
 
       /**
        * Initialise the driver.
