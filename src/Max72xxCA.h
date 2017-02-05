@@ -52,7 +52,7 @@ class Max72xxCA {
        * latchPin   the data latch
        */
       void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin);
-
+      void displaysOn();
       void setDigit(uint8_t digit, uint8_t value);
       uint8_t getRegister(uint8_t bit);
       uint8_t getColumn(uint8_t digit);

@@ -51,10 +51,10 @@ void setup() {
   //display.setDigit(23, display.number_8);
   display.update();
   
-  display.driver.displayOn(1);
-  display.driver.displayOn(2);
-  display.driver.displayOn(3);
-  
+//  display.driver.displayOn(1);
+//  display.driver.displayOn(2);
+//  display.driver.displayOn(3);
+  display.displaysOn();
 }
 
 void loop() {

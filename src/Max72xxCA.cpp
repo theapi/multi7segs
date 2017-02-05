@@ -25,6 +25,12 @@ void Max72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
   Serial.println(" end setup");
 }
 
+void Max72xxCA::displaysOn() {
+  for (uint8_t i = 1; i <= _numChips; i++) {
+    driver.displayOn(i);
+  }
+}
+
 /**
  * Give the binary/hex representation of the 7 segment digit.
  * e.g., 4, B11111111 = 8 displayed on digit 4
