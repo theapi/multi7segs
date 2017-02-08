@@ -14,6 +14,7 @@
 #define DRIVER_LOAD 13 // D7 on NodeMcu
 
 const byte DEBUG_LED = 16;
+byte colon1 = false;
 
 Max72xxCA display = Max72xxCA();
 
@@ -35,7 +36,7 @@ void setup() {
 //  display.setDigit(1, display.number_4);
 //  display.setDigit(2, display.number_3);
 //  display.setDigit(3, display.number_2 | display.colon);
-  display.setDigitToNumber(3, 2, true);
+  display.setDigitToNumber(3, 2, colon1);
 
   display.setDigit(4, display.number_1);
   display.setDigit(5, display.number_0);
@@ -47,10 +48,11 @@ void setup() {
   display.setDigit(10, display.number_2);
   display.setDigit(11, display.number_3);
   display.setDigit(12, display.number_4);
-  display.setDigit(13, display.number_5);
-  display.setDigit(14, display.number_6);
-  display.setDigit(15, display.number_7);
-  display.setDigit(16, display.number_8);
+
+  display.setDigitToNumber(16, 5);
+  display.setDigitToNumber(15, 6);
+  display.setDigitToNumber(14, 7);
+  display.setDigitToNumber(13, 8);
 
   display.setDigit(17, display.number_8);
   display.setDigit(18, display.number_7);
@@ -67,13 +69,22 @@ void setup() {
 }
 
 void loop() {
- delay(1000);
+  Serial.println(colon1);
+  delay(1000);
 
- display.setDigitToNumber(9, random(0, 8));
- display.setDigitToNumber(10, random(0, 8));
- display.setDigitToNumber(11, random(0, 8));
- display.setDigitToNumber(12, random(0, 8));
- 
- display.update();
+  display.setDigitToNumber(3, 2, colon1);
+  if (colon1) {
+    colon1 = false;
+  }
+  else {
+    colon1 = true;
+  }
+  
+  display.setDigitToNumber(9, random(0, 8));
+  display.setDigitToNumber(10, random(0, 8));
+  display.setDigitToNumber(11, random(0, 8));
+  display.setDigitToNumber(12, random(0, 8));
+  
+  display.update();
 }
 
