@@ -16,13 +16,19 @@
 const byte DEBUG_LED = 16;
 byte colon1 = false;
 
+unsigned long seconds_last = 0;
+const long seconds_interval = 1000;
+
+unsigned long effect_a_last = 0;
+const long effect_a_interval = 88;
+
 Max72xxCA display = Max72xxCA();
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println("-----------------");
-  Serial.println();
+//  Serial.begin(115200);
+//  Serial.println();
+//  Serial.println("-----------------");
+//  Serial.println();
   
   pinMode(DEBUG_LED, OUTPUT);
   digitalWrite(DEBUG_LED, HIGH);  // LOW = ON
@@ -69,22 +75,46 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(colon1);
-  delay(1000);
 
-  display.setDigitToNumber(3, 2, colon1);
-  if (colon1) {
-    colon1 = false;
+  unsigned long now = millis();
+
+  if (now - effect_a_last >= effect_a_interval) {
+    effect_a_last = now;
+    if (colon1 == true) {
+      // Put changing giberish on the display for a second.
+      display.setDigit(13, random(0, 255));
+      display.setDigit(14, random(0, 255));
+      display.setDigit(15, random(0, 255));
+      display.setDigit(16, random(0, 255));
+      display.update();
+    }
   }
-  else {
-    colon1 = true;
+
+  if (now - seconds_last >= seconds_interval) {
+    seconds_last = now;
+    
+    display.setDigitToNumber(3, 2, colon1);
+    if (colon1) {
+      colon1 = false;
+    }
+    else {
+      colon1 = true;
+    }
+    
+    display.setDigitToNumber(9, random(0, 8));
+    display.setDigitToNumber(10, random(0, 8));
+    display.setDigitToNumber(11, random(0, 8));
+    display.setDigitToNumber(12, random(0, 8));
+
+    display.setDigitToNumber(16, random(0, 8));
+    display.setDigitToNumber(15, random(0, 8));
+    display.setDigitToNumber(14, random(0, 8));
+    display.setDigitToNumber(13, random(0, 8));
+    
+    display.update();
+    
   }
-  
-  display.setDigitToNumber(9, random(0, 8));
-  display.setDigitToNumber(10, random(0, 8));
-  display.setDigitToNumber(11, random(0, 8));
-  display.setDigitToNumber(12, random(0, 8));
-  
-  display.update();
+
+
 }
 

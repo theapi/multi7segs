@@ -27,9 +27,9 @@ void Max72xx::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin, uint8_t n
  * fourth receives the intended data.
  */
 void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
-  Serial.print(" sendPacketToChip: ");
-  Serial.print(chip);
-  Serial.println();
+  //Serial.print(" sendPacketToChip: ");
+  //Serial.print(chip);
+  //Serial.println();
 
   digitalWrite(_load, LOW);
 
@@ -51,11 +51,11 @@ void Max72xx::sendPacketToChip(uint8_t chip, uint8_t address, uint8_t data) {
  */
 void Max72xx::sendPacket(uint8_t address, uint8_t data) {
 
-Serial.print(" sendPacket: ");
-Serial.print(address, HEX);
-    Serial.print(" : ");
-    Serial.print(data, HEX);
-    Serial.println();
+//Serial.print(" sendPacket: ");
+//Serial.print(address, HEX);
+    //Serial.print(" : ");
+    //Serial.print(data, HEX);
+    //Serial.println();
 
   // shift out highbyte
   shiftOut(_din, _clk, MSBFIRST, address);

@@ -4,7 +4,7 @@
 Max72xxCA::Max72xxCA() {}
 
 void Max72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
-   Serial.println(" setup");
+   //Serial.println(" setup");
   _numDigits = Max72xxCA_NUM_DIGITS; // Num digits is set as a #define so as to avoid dynamically sized buffer.
   _numChips = _numDigits / 8; // 8 digits per Max72xx
   if (_numDigits % 8 > 0) {
@@ -22,7 +22,7 @@ void Max72xxCA::setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin) {
     driver.decodeMode(i, 0x00);
   }
 
-  Serial.println(" end setup");
+  //Serial.println(" end setup");
 }
 
 void Max72xxCA::displaysOn() {
@@ -60,24 +60,25 @@ void Max72xxCA::setDigit(uint8_t digit, uint8_t data) {
   uint8_t bit_value;
 
   col = getColumn(digit);
-  Serial.println(" setDigit");
-  Serial.print(" digit:"); Serial.print(digit);
-  Serial.print(" col:"); Serial.print(col);
-  Serial.print(" reg_base:"); Serial.print(reg_base);
-  Serial.print(" data:"); Serial.print(data, BIN);
-  Serial.println();
+
+  //Serial.println(" setDigit");
+  //Serial.print(" digit:"); Serial.print(digit);
+  //Serial.print(" col:"); Serial.print(col);
+  //Serial.print(" reg_base:"); Serial.print(reg_base);
+  //Serial.print(" data:"); Serial.print(data, BIN);
+  //Serial.println();
 
   for (uint8_t i = 0; i < 8; i++)  {
     // Read each bit in the data and put it in the buffer for its register.
     reg = reg_base + getRegister(i);
     bit_value = bitRead(data, i);
-    Serial.print(" reg:"); Serial.print(reg);
-    Serial.print(" bit_value:"); Serial.print( bit_value , BIN); Serial.print(" ");
+    //Serial.print(" reg:"); Serial.print(reg);
+    //Serial.print(" bit_value:"); Serial.print( bit_value , BIN); Serial.print(" ");
     bitWrite(_buffer[reg], col, bit_value);
-    Serial.print(" buffer:");  Serial.println( _buffer[reg], BIN);
+    //Serial.print(" buffer:");  Serial.println( _buffer[reg], BIN);
   }
 
-  Serial.println();
+  //Serial.println();
 }
 
 /**
@@ -123,8 +124,7 @@ uint8_t Max72xxCA::getRegister(uint8_t bit) {
 }
 
 void Max72xxCA::update() {
-  //...
-  Serial.println(" Update");
+  //Serial.println(" Update");
   uint8_t j = 0;
   uint8_t chip = 1;
   uint8_t address = 0;
@@ -132,12 +132,13 @@ void Max72xxCA::update() {
     address = j + 1;
 
 
-    Serial.print(chip);
-    Serial.print(" : ");
-    Serial.print(address, HEX);
-    Serial.print(" : ");
-    Serial.print( _buffer[i], BIN);
-    Serial.println();
+    //Serial.print(chip);
+    //Serial.print(" : ");
+    //Serial.print(address, HEX);
+    //Serial.print(" : ");
+    //Serial.print( _buffer[i], BIN);
+    //Serial.println();
+
     driver.sendPacketToChip(chip, address, _buffer[i]);
 
     if (j == 7) {
@@ -148,8 +149,5 @@ void Max72xxCA::update() {
     }
 
   }
-
-
-  //...
 }
 
