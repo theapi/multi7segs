@@ -15,6 +15,7 @@
 
 const byte DEBUG_LED = 16;
 byte colon1 = false;
+byte num = 8;
 
 unsigned long seconds_last = 0;
 const long seconds_interval = 1000;
@@ -60,14 +61,14 @@ void setup() {
   display.setDigitToNumber(14, 7);
   display.setDigitToNumber(13, 8);
 
-  display.setDigit(17, display.number_8);
-  display.setDigit(18, display.number_7);
-  display.setDigit(19, display.number_6);
-  display.setDigit(20, display.number_5);
-  display.setDigit(21, display.number_4);
-  display.setDigit(22, display.number_3);
-  display.setDigit(23, display.number_2);
-  display.setDigit(24, display.number_1);
+  display.setDigitToNumber(17, 8);
+  display.setDigitToNumber(18, 7);
+  display.setDigitToNumber(19, 6);
+  display.setDigitToNumber(20, 5);
+  display.setDigitToNumber(21, 4);
+  display.setDigitToNumber(22, 3);
+  display.setDigitToNumber(23, 2);
+  display.setDigitToNumber(24, 1);
   
   display.update();
   
@@ -110,11 +111,30 @@ void loop() {
     display.setDigitToNumber(15, random(0, 8));
     display.setDigitToNumber(14, random(0, 8));
     display.setDigitToNumber(13, random(0, 8));
+
+    display.setDigitToNumber(24, decreaseNum());
+    display.setDigitToNumber(23, decreaseNum());
+    display.setDigitToNumber(22, decreaseNum());
+    display.setDigitToNumber(21, decreaseNum());
     
+    display.setDigitToNumber(20, decreaseNum());
+    display.setDigitToNumber(19, decreaseNum());
+    display.setDigitToNumber(18, decreaseNum());
+    display.setDigitToNumber(17, decreaseNum());
+
     display.update();
     
   }
 
 
 }
+
+byte decreaseNum() {
+  num--;
+  if (num > 8) {
+      num = 8;
+  }
+  return num;
+}
+
 
