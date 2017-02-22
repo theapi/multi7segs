@@ -226,10 +226,12 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSE
+                              |RCC_OSCILLATORTYPE_HSI48;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -250,9 +252,11 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_RTC;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_RTC
+                              |RCC_PERIPHCLK_USB;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+  PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -291,13 +295,13 @@ uint16_t rnd(uint16_t howbig)
   if (howbig == 0) {
     return 0;
   }
-//  uint32_t random32bit;
-//  HAL_RNG_GenerateRandomNumber(&hrng, &random32bit);
-//  return random32bit % howbig;
+  uint32_t random32bit;
+  HAL_RNG_GenerateRandomNumber(&hrng, &random32bit);
+  return random32bit % howbig;
 
-  uint16_t r;
-  r = rand();
-  return r % howbig;
+//  uint16_t r;
+//  r = rand();
+//  return r % howbig;
 }
 
 /* USER CODE END 4 */
