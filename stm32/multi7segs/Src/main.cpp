@@ -36,6 +36,7 @@
 #include "main.h"
 #include "stm32l0xx_hal.h"
 #include "adc.h"
+#include "rng.h"
 #include "rtc.h"
 #include "spi.h"
 #include "usart.h"
@@ -45,6 +46,8 @@
 
 #include "arduino_shim.h"
 #include "Max72xxCA.h"
+#include "stdlib.h"
+
 
 /* USER CODE END Includes */
 
@@ -104,6 +107,7 @@ int main(void)
   MX_RTC_Init();
   MX_SPI1_Init();
   MX_USART1_UART_Init();
+  MX_RNG_Init();
 
   /* USER CODE BEGIN 2 */
   display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
@@ -152,17 +156,33 @@ int main(void)
               debug_led = 0;
           }
 
+          //uint32_t random32bit;
+          //HAL_RNG_GenerateRandomNumber(&hrng, &random32bit);
+
+
+
           display.setDigitToNumber(24, decreaseNum());
-            display.setDigitToNumber(23, decreaseNum());
-            display.setDigitToNumber(22, decreaseNum());
-            display.setDigitToNumber(21, decreaseNum());
+          display.setDigitToNumber(23, decreaseNum());
+          display.setDigitToNumber(22, decreaseNum());
+          display.setDigitToNumber(21, decreaseNum());
 
-            display.setDigitToNumber(20, decreaseNum());
-            display.setDigitToNumber(19, decreaseNum());
-            display.setDigitToNumber(18, decreaseNum());
-            display.setDigitToNumber(17, decreaseNum());
+          display.setDigitToNumber(20, decreaseNum());
+          display.setDigitToNumber(19, decreaseNum());
+          display.setDigitToNumber(18, decreaseNum());
+          display.setDigitToNumber(17, decreaseNum());
 
-            display.update();
+
+          display.setDigitToNumber(16, rnd(8));
+          display.setDigitToNumber(15, rnd(8));
+          display.setDigitToNumber(14, rnd(8));
+          display.setDigitToNumber(13, rnd(8));
+
+          display.setDigitToNumber(12, rnd(8));
+          display.setDigitToNumber(11, rnd(8));
+          display.setDigitToNumber(10, rnd(8));
+          display.setDigitToNumber(9, rnd(8));
+
+          display.update();
       }
 
   }
@@ -243,6 +263,20 @@ uint8_t decreaseNum() {
       num = 8;
   }
   return num;
+}
+
+uint16_t rnd(uint16_t howbig)
+{
+  if (howbig == 0) {
+    return 0;
+  }
+//  uint32_t random32bit;
+//  HAL_RNG_GenerateRandomNumber(&hrng, &random32bit);
+//  return random32bit % howbig;
+
+  uint16_t r;
+  r = rand();
+  return r % howbig;
 }
 
 /* USER CODE END 4 */

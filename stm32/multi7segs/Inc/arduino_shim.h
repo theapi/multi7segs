@@ -10,7 +10,7 @@
  extern "C" {
 #endif
 
- #include "stm32l0xx_hal.h"
+#include "stm32l0xx_hal.h"
 #include "main.h"
 #include "stdint.h"
 
