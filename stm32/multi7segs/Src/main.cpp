@@ -68,7 +68,7 @@ unsigned long seconds_last = 0;
 const long seconds_interval = 1000;
 
 unsigned long effect_a_last = 0;
-const long effect_a_interval = 88;
+const long effect_a_interval = 100;
 
 /* USER CODE END PV */
 
@@ -145,6 +145,19 @@ int main(void)
 //      HAL_Delay(500);
 
       unsigned long now = HAL_GetTick();
+
+      if (now - effect_a_last >= effect_a_interval) {
+          effect_a_last = now;
+          if (colon1 == true) {
+              // Put changing gibberish on the display for a second.
+              display.setDigit(13, rnd(255));
+              display.setDigit(14, rnd(255));
+              display.setDigit(15, rnd(255));
+              display.setDigit(16, rnd(255));
+              display.update();
+          }
+      }
+
       if (now - seconds_last >= seconds_interval) {
           seconds_last = now;
 
@@ -154,6 +167,14 @@ int main(void)
           } else {
               digitalWrite(5, LOW);
               debug_led = 0;
+          }
+
+          display.setDigitToNumber(3, 2, colon1);
+          if (colon1) {
+              colon1 = false;
+          }
+          else {
+              colon1 = true;
           }
 
           //uint32_t random32bit;
