@@ -31,6 +31,8 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+
+
 #include "main.h"
 #include "stm32l0xx_hal.h"
 #include "adc.h"
@@ -41,12 +43,29 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "arduino_shim.h"
+#include "Max72xxCA.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+#define DRIVER_DIN  0
+#define DRIVER_SCK  1
+#define DRIVER_LOAD 2
+
+const uint8_t DEBUG_LED = 16;
+uint8_t colon1 = false;
+uint8_t num = 8;
+uint8_t debug_led = 0;
+
+unsigned long seconds_last = 0;
+const long seconds_interval = 1000;
+
+unsigned long effect_a_last = 0;
+const long effect_a_interval = 88;
 
 /* USER CODE END PV */
 
@@ -60,6 +79,7 @@ void Error_Handler(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+Max72xxCA display = Max72xxCA();
 
 /* USER CODE END 0 */
 
@@ -86,6 +106,23 @@ int main(void)
   MX_USART1_UART_Init();
 
   /* USER CODE BEGIN 2 */
+  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
+
+  //pinMode(5, OUTPUT); //  done in MX_GPIO_Init();
+
+  display.setDigitToNumber(1, 4);
+  display.setDigitToNumber(2, 3);
+  display.setDigitToNumber(3, 2, colon1);
+
+  display.setDigit(4, display.number_1);
+  display.setDigit(5, display.number_0);
+  display.setDigit(6, display.char_L);
+  display.setDigit(7, display.char_E);
+  display.setDigit(8, display.char_H);
+
+  display.update();
+
+  display.displaysOn();
 
   /* USER CODE END 2 */
 
@@ -96,8 +133,37 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  HAL_Delay(500);
+      //HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//      digitalWrite(5, HIGH);
+//      HAL_Delay(500);
+//
+//      digitalWrite(5, LOW);
+//      HAL_Delay(500);
+
+      unsigned long now = HAL_GetTick();
+      if (now - seconds_last >= seconds_interval) {
+          seconds_last = now;
+
+          if (debug_led == 0) {
+              debug_led = 1;
+              digitalWrite(5, HIGH);
+          } else {
+              digitalWrite(5, LOW);
+              debug_led = 0;
+          }
+
+          display.setDigitToNumber(24, decreaseNum());
+            display.setDigitToNumber(23, decreaseNum());
+            display.setDigitToNumber(22, decreaseNum());
+            display.setDigitToNumber(21, decreaseNum());
+
+            display.setDigitToNumber(20, decreaseNum());
+            display.setDigitToNumber(19, decreaseNum());
+            display.setDigitToNumber(18, decreaseNum());
+            display.setDigitToNumber(17, decreaseNum());
+
+            display.update();
+      }
 
   }
   /* USER CODE END 3 */
@@ -170,6 +236,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+uint8_t decreaseNum() {
+  num--;
+  if (num > 8) {
+      num = 8;
+  }
+  return num;
+}
 
 /* USER CODE END 4 */
 

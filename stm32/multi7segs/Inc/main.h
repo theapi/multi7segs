@@ -36,12 +36,14 @@
   /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
+#include "stdint.h"
 
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
+uint8_t decreaseNum();
 
 /* USER CODE END Private defines */
 
