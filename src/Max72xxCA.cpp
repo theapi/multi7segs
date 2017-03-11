@@ -81,6 +81,34 @@ void Max72xxCA::setDigit(uint8_t digit, uint8_t data) {
   //Serial.println();
 }
 
+uint8_t Max72xxCA::getDigitValue(uint8_t digit) {
+  uint8_t data = getDigit(digit);
+
+  for (uint8_t i = 0; i < Max72xxCA_NUM_CHARS; i++) {
+    if (_chars[i] == data) {
+      return i;
+    }
+  }
+
+  return ' ';
+}
+
+uint8_t Max72xxCA::getDigit(uint8_t digit) {
+  uint8_t reg_base = ((digit -1) / 8) * 8;
+  uint8_t reg;
+  uint8_t col = getColumn(digit);
+  uint8_t bit_value;
+  uint8_t data;
+
+  for (uint8_t i = 0; i < 8; i++)  {
+    reg = reg_base + getRegister(i);
+    bit_value = bitRead(_buffer[reg], col);
+    bitWrite(data, i, bit_value);
+  }
+
+  return data;
+}
+
 /**
  * Get the "column" in the 8 registers this digits bits are set.
  *

@@ -52,24 +52,28 @@ void setup() {
 
 
   server.on("/data.json", []() {
-    // Build the json response & set the digits.
-    String message = "{";
-    message += "\"digits\": [";
+    // Set the digits.
     for (uint8_t i = 0; i < server.args(); i++ ) {
       if (server.argName(i).indexOf('d') == 0) {
          String d = server.argName(i).substring(1);
-         String v = server.arg(i);
-         display.setDigitToNumber(d.toInt(), v.toInt());
-         message += "{\"digit\": " + d + ",";
-         message += "\"value\": " + v + "}";
-         if (i < server.args() - 1) {
-           message += ",";
-         }
+         display.setDigitToNumber(d.toInt(), server.arg(i).toInt());
+      }
+    }
+    display.update();
+
+    // Respond with the current digit values.
+    String message = "{";
+    message += "\"digits\": [";
+    for (uint8_t i = 1; i <= Max72xxCA_NUM_DIGITS; i++ ) {
+      message += "{\"digit\": " + String(i) + ",";
+      message += "\"value\": " + String(display.getDigitValue(i)) + "}";
+      if (i < Max72xxCA_NUM_DIGITS) {
+        message += ",";
       }
     }
     message += "]"; // end digits
     message += "}\n";
-    display.update();
+    
     server.send(200, "application/json", message);
   });
 
@@ -83,12 +87,12 @@ void setup() {
   display.update();
   
   display.displaysOn();
+  
 }
 
 void loop() {
   server.handleClient();
   // Check for any Over The Air updates.
   denbit.OTAhandle();
-  
 }
 
