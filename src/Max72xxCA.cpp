@@ -90,7 +90,8 @@ uint8_t Max72xxCA::getDigitValue(uint8_t digit) {
     }
   }
 
-  return ' ';
+  // Blank
+  return 10;
 }
 
 uint8_t Max72xxCA::getDigit(uint8_t digit) {
