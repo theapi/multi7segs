@@ -94,6 +94,7 @@ void setup() {
     message += "\"digits\": [";
     for (uint8_t i = 1; i <= Max72xxCA_NUM_DIGITS; i++ ) {
       message += "{\"digit\": " + String(i) + ",";
+      // @todo handle the colon in display.getDigitValue(i);
       message += "\"value\": " + String(display.getDigitValue(i)) + "}";
       if (i < Max72xxCA_NUM_DIGITS) {
         message += ",";
@@ -111,6 +112,24 @@ void setup() {
   display.setDigit(6, display.char_L);
   display.setDigit(7, display.char_E);
   display.setDigit(8, display.char_H);
+
+  // Display IP address
+  IPAddress ip = WiFi.localIP();
+  display.setDigitToNumber(20, ip[0] / 100);
+  display.setDigitToNumber(19, (ip[0] / 10) % 10);
+  display.setDigitToNumber(18, ip[0] % 10);
+  
+  display.setDigitToNumber(17, ip[1] / 100);
+  display.setDigitToNumber(12, (ip[1] / 10) % 10);
+  display.setDigitToNumber(11, ip[1] % 10);
+
+  display.setDigitToNumber(10, ip[2] / 100);
+  display.setDigitToNumber(9, (ip[2] / 10) % 10);
+  display.setDigitToNumber(4, ip[2] % 10);
+
+  display.setDigitToNumber(3, ip[3] / 100);
+  display.setDigitToNumber(2, (ip[3] / 10) % 10);
+  display.setDigitToNumber(1, ip[3] % 10);
 
   display.update();
   
@@ -152,7 +171,7 @@ void displayCurrentTime() {
 
   // Minutes
   if (m < 10) {
-    display.setDigitToNumber(22, 10);
+    display.setDigitToNumber(22, 0);
   }
   else {
     display.setDigitToNumber(22, m / 10);

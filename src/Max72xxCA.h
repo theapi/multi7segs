@@ -9,7 +9,7 @@
 
 #include "Max72xx.h"
 
-#define Max72xxCA_NUM_CHARS 14
+#define Max72xxCA_NUM_CHARS 15
 
 class Max72xxCA {
     private :
@@ -27,11 +27,13 @@ class Max72xxCA {
         B00111110,
         B01001001,
         B01111111,
-        B10000000, // colon
+        B01011101,
+
         B00000000, // blank
         B00011111, // H
         B01110110, // E
         B00110010, // L
+        B10000000, // colon
       };
 
     public:
@@ -45,12 +47,13 @@ class Max72xxCA {
         uint8_t number_6 = _chars[6];
         uint8_t number_7 = _chars[7];
         uint8_t number_8 = _chars[8];
+        uint8_t number_9 = _chars[9];
 
-        uint8_t colon    = _chars[9];
         uint8_t blank    = _chars[10];
         uint8_t char_H   = _chars[11];
         uint8_t char_E   = _chars[12];
         uint8_t char_L   = _chars[13];
+        uint8_t colon    = _chars[14];
 
       /**
        * The Max7219 driver
