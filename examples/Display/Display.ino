@@ -29,6 +29,8 @@ Denbit denbit;
 #define DRIVER_SCK  12 // D6 on NodeMcu
 #define DRIVER_LOAD 13 // D7 on NodeMcu
 
+#define NTP_INTERVAL 60 * 60 * 1000
+
 const byte DEBUG_LED = 16;
 
 unsigned int localPort = 2390;      // local port to listen for UDP packets
@@ -44,7 +46,7 @@ const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of th
 byte packetBuffer[ NTP_PACKET_SIZE]; //buffer to hold incoming and outgoing packets
 
 
-const long ntp_interval = 60000;
+long ntp_interval = 1500; // Initital try to set the time often.
 unsigned long ntp_last = ntp_interval + 1;
 const long seconds_interval = 1000;
 unsigned long seconds_last = seconds_interval + 1;
@@ -197,6 +199,9 @@ void ntp() {
   if (awating_packet == 1 && (now - ntp_last > 1000)) {
     int cb = udp.parsePacket();
     if (cb) {
+      // Now that the initial time has been set, check the time less often.
+      ntp_interval = NTP_INTERVAL;
+      
       //Serial.print("packet received, length=");
       //Serial.println(cb);
       awating_packet = 0;
@@ -222,26 +227,8 @@ void ntp() {
       unsigned long unixTime = secsSince1900 - seventyYears;
 
       setTime(unixTime);
-      
-//      // print Unix time:
-//      Serial.println(unixTime);
-//   
-//   
-//      // print the hour, minute and second:
-//      Serial.print("The UTC time is ");       // UTC is the time at Greenwich Meridian (GMT)
-//      Serial.print((unixTime  % 86400L) / 3600); // print the hour (86400 equals secs per day)
-//      Serial.print(':');
-//      if ( ((unixTime % 3600) / 60) < 10 ) {
-//        // In the first 10 minutes of each hour, we'll want a leading '0'
-//        Serial.print('0');
-//      }
-//      Serial.print((unixTime  % 3600) / 60); // print the minute (3600 equals secs per minute)
-//      Serial.print(':');
-//      if ( (unixTime % 60) < 10 ) {
-//        // In the first 10 seconds of each minute, we'll want a leading '0'
-//        Serial.print('0');
-//      }
-//      Serial.println(unixTime % 60); // print the second
+      //Serial.println(minute());
+
     }
   }
 
