@@ -60,6 +60,16 @@ WiFiUDP udp;
 void setup() {
 
   Serial.begin(115200);
+  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
+
+  display.setDigit(5, display.number_0);
+  display.setDigit(6, display.char_L);
+  display.setDigit(7, display.char_E);
+  display.setDigit(8, display.char_H);
+
+  display.update();
+  
+  display.displaysOn();
   
   // Start the Over The Air programming.
   denbit.OTAsetup();
@@ -73,7 +83,7 @@ void setup() {
   pinMode(DEBUG_LED, OUTPUT);
   digitalWrite(DEBUG_LED, HIGH);  // LOW = ON
 
-  display.setup(DRIVER_DIN, DRIVER_SCK, DRIVER_LOAD);
+  
 
 
   Serial.println("Starting UDP");
@@ -110,10 +120,7 @@ void setup() {
 
   server.begin();
 
-  display.setDigit(5, display.number_0);
-  display.setDigit(6, display.char_L);
-  display.setDigit(7, display.char_E);
-  display.setDigit(8, display.char_H);
+
 
   // Display IP address
   IPAddress ip = WiFi.localIP();
@@ -134,8 +141,6 @@ void setup() {
   display.setDigitToNumber(1, ip[3] % 10);
 
   display.update();
-  
-  display.displaysOn();
   
 }
 
