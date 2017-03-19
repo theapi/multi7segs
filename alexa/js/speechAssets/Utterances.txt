@@ -1,2 +1,2 @@
-SetDigitIntent digit
-SetDigitIntent set digit
+
+SetDigitIntent to set {Digit} to the number {Number}

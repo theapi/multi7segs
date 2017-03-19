@@ -1,7 +1,11 @@
 {
-  "intents": [
-    {
-      "intent": "SetDigitIntent"
-    }
-  ]
+    "intents": [
+        {
+            "intent": "SetDigitIntent",
+            "slots": [
+                {"name": "Digit", "type": "AMAZON.NUMBER"},
+                {"name": "Number", "type": "AMAZON.NUMBER"}
+            ]
+        }
+    ]
 }
