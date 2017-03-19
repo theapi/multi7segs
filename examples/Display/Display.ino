@@ -23,9 +23,10 @@
 Denbit denbit;
 
 
-#define DRIVER_DIN  D1 // 5 on NodeMcu
-#define DRIVER_SCK  D2 // 4 on NodeMcu
-#define DRIVER_LOAD D3 // 0 on NodeMcu
+#define DRIVER_SCK  D6 // 12
+#define DRIVER_DIN  D5 // 14
+#define DRIVER_LOAD D7 // 13
+
 
 #define NTP_INTERVAL 60 * 60 * 1000
 
