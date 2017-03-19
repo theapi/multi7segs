@@ -1,0 +1,31 @@
+{
+  "name": "theapi-multi7segs",
+  "version": "0.0.1",
+  "description": "Ask Alexa to interact with the multi 7 segment display",
+  "main": "index.js",
+  "dependencies": {
+    "alexa-sdk": "^1.0.6",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theapi/multi7segs"
+  },
+  "keywords": [
+    "Alexa",
+    "skill",
+    "sdk",
+    "seven",
+    "segment"
+  ],
+  "author": "https://github.com/theapi",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/theapi/multi7segs/issues"
+  },
+  "homepage": "https://github.com/theapi/multi7segs"
+}

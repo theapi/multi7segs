@@ -1,6 +1,3 @@
-
-
-
 /** 
  * Set the values of the 6 X 4 seven segment displays via a GET request.
  * 
