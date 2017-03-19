@@ -58,6 +58,8 @@ WiFiUDP udp;
 
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
+const uint16_t port = 2000;
+const char * host = "192.168.0.22"; // ip or dns
 
 void setup() {
 
@@ -87,11 +89,14 @@ void setup() {
 
   
 
-
+  // Set the clock.
   Serial.println("Starting UDP");
   udp.begin(localPort);
   Serial.print("Local port: ");
   Serial.println(udp.localPort());
+
+  // Connect to the socket server for the data feed.
+  socketConnect(host, port);
 
   server.on("/data.json", []() {
     // Set the digits.
@@ -156,11 +161,17 @@ void loop() {
   // Correct the clock time if needed.
   ntp();
 
+  // Process any waiting socket data.
+  handleSocketData();
+
   // Show the time.
   unsigned long now = millis();
   if (now - seconds_last >= seconds_interval) {
     seconds_last = now;
     displayCurrentTime();
+
+    // Ensure still connected to the socket server.
+    socketConnect(host, port);
   }
 }
 
@@ -188,6 +199,52 @@ void displayCurrentTime() {
   display.setDigitToNumber(21, m % 10);
   
   display.update();
+}
+
+void displaySolarMsgId(String msgId) {
+  Serial.println(msgId);
+  int i = msgId.toInt();
+ // byte ones, tens, hundreds;
+
+  display.setDigitToNumber(16, 10);
+  display.setDigitToNumber(15, i / 100);
+  display.setDigitToNumber(14, (i / 10) % 10);
+  display.setDigitToNumber(13, i % 10);
+}
+
+void socketConnect(const char *host, uint16_t port) {
+  if (!client.connected()) {
+    Serial.print("connecting to ");
+    Serial.println(host);
+    if (!client.connect(host, port)) {
+        Serial.println("...connection failed");
+    }
+    else {
+      Serial.println("...connected");
+    }
+  }
+
+}
+
+void handleSocketData() {
+  if (client.available()){
+    String line = client.readStringUntil('\r');
+    Serial.println(line);
+
+    // Device id.
+    int dev_id = line.indexOf(',');
+    // Msg type.
+    int msg_type = line.indexOf(',', ++dev_id);
+    // Msg id.
+    int msg_id  = line.indexOf(',', ++msg_type);
+    // vcc.
+    int vcc  = line.indexOf(',', ++msg_id);
+
+    String msgId = line.substring(msg_id, vcc);
+    displaySolarMsgId(msgId);
+    
+  }
+  
 }
 
 void ntp() {
@@ -264,16 +321,5 @@ unsigned long sendNTPpacket(IPAddress& address)
   udp.beginPacket(address, 123); //NTP requests are to port 123
   udp.write(packetBuffer, NTP_PACKET_SIZE);
   udp.endPacket();
-}
-
-void socketConnect(host, port) {
-  if (!client.connected()) {
-    Serial.print("connecting to ");
-    Serial.println(host);
-    while (!client.connect(host, port)) {
-        Serial.println("connection failed");
-    }
-  }
-
 }
 
