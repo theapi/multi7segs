@@ -201,24 +201,54 @@ void displayCurrentTime() {
   display.update();
 }
 
-void displaySolarMsgId(int i) {
-  //Serial.println(i);
- // byte ones, tens, hundreds;
+void displayBlock(int block, int i) {
+  // Each block has 4 digits.
+  
+  if (i > 999) {
+    display.setDigitToNumber((block * 4), i / 1000);
+  } else {
+    display.setDigitToNumber((block * 4), 10);
+  }
 
-  display.setDigitToNumber(16, 10);
-  display.setDigitToNumber(15, i / 100);
-  display.setDigitToNumber(14, (i / 10) % 10);
-  display.setDigitToNumber(13, i % 10);
+  if (i > 99) {
+    display.setDigitToNumber((block * 4) - 1, (i % 1000) / 100);
+  } else {
+    display.setDigitToNumber((block * 4) - 1, 10);
+  }
+  
+  if (i > 9) {
+    display.setDigitToNumber((block * 4) - 2, (i / 10) % 10);
+  } else {
+    display.setDigitToNumber((block * 4) - 2, 10);
+  }
+  
+  display.setDigitToNumber((block * 4) - 3, i % 10);
 }
 
-void displaySolarLight(int i) {
-  //Serial.println(i);
- // byte ones, tens, hundreds;
+void displayBlockTemperature(int block, int i) {
+  // Move the number to the left so as to have degree symbol.
+  i = i * 10;
+  
+  if (i > 999) {
+    display.setDigitToNumber((block * 4), i / 1000);
+  } else {
+    display.setDigitToNumber((block * 4), 10);
+  }
 
-  display.setDigitToNumber(8, i / 1000);
-  display.setDigitToNumber(7, (i % 1000) / 100);
-  display.setDigitToNumber(6, (i / 10) % 10);
-  display.setDigitToNumber(5, i % 10);
+  if (i > 99) {
+    display.setDigitToNumber((block * 4) - 1, (i % 1000) / 100);
+  } else {
+    display.setDigitToNumber((block * 4) - 1, 10);
+  }
+  
+  if (i > 9) {
+    display.setDigitToNumber((block * 4) - 2, (i / 10) % 10);
+  } else {
+    display.setDigitToNumber((block * 4) - 2, 10);
+  }
+  
+  // Show degrees symbol.
+  display.setDigit((block * 4) - 3, display.degrees);
 }
 
 void socketConnect(const char *host, uint16_t port) {
@@ -260,13 +290,26 @@ void handleSocketData() {
     int eol = line.indexOf('\r', light + 1);
 
     String s;
-    
-    s = line.substring(msg_id + 1, vcc); 
-    displaySolarMsgId(s.toInt());
 
-    s = line.substring(light + 1, eol);
-    displaySolarLight(s.toInt());
+    // Show the message id.
+    s = line.substring(msg_id + 1, vcc); 
+    displayBlock(3, s.toInt());
     
+    // Show the light reading.
+    s = line.substring(light + 1, eol);
+    displayBlock(2, s.toInt());
+
+    // Show the soil reading.
+    s = line.substring(soil + 1, light);
+    displayBlock(4, s.toInt());
+
+    // Show the temperature reading.
+    s = line.substring(temperature_ext + 1, soil);
+    displayBlockTemperature(5, s.toInt());
+
+    // Show the vcc reading.
+    s = line.substring(vcc + 1, temperature_int);
+    displayBlock(1, s.toInt());
   }
   
 }
