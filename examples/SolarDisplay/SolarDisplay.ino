@@ -216,8 +216,7 @@ void displaySolarLight(int i) {
  // byte ones, tens, hundreds;
 
   display.setDigitToNumber(8, i / 1000);
-  Serial.println((i / 100) % 100);
-  display.setDigitToNumber(7, (i / 100) % 100); //@todo fix this.
+  display.setDigitToNumber(7, (i % 1000) / 100);
   display.setDigitToNumber(6, (i / 10) % 10);
   display.setDigitToNumber(5, i % 10);
 }
