@@ -201,15 +201,25 @@ void displayCurrentTime() {
   display.update();
 }
 
-void displaySolarMsgId(String msgId) {
-  Serial.println(msgId);
-  int i = msgId.toInt();
+void displaySolarMsgId(int i) {
+  //Serial.println(i);
  // byte ones, tens, hundreds;
 
   display.setDigitToNumber(16, 10);
   display.setDigitToNumber(15, i / 100);
   display.setDigitToNumber(14, (i / 10) % 10);
   display.setDigitToNumber(13, i % 10);
+}
+
+void displaySolarLight(int i) {
+  //Serial.println(i);
+ // byte ones, tens, hundreds;
+
+  display.setDigitToNumber(8, i / 1000);
+  Serial.println((i / 100) % 100);
+  display.setDigitToNumber(7, (i / 100) % 100); //@todo fix this.
+  display.setDigitToNumber(6, (i / 10) % 10);
+  display.setDigitToNumber(5, i % 10);
 }
 
 void socketConnect(const char *host, uint16_t port) {
@@ -234,14 +244,29 @@ void handleSocketData() {
     // Device id.
     int dev_id = line.indexOf(',');
     // Msg type.
-    int msg_type = line.indexOf(',', ++dev_id);
+    int msg_type = line.indexOf(',', dev_id + 1);
     // Msg id.
-    int msg_id  = line.indexOf(',', ++msg_type);
+    int msg_id  = line.indexOf(',', msg_type + 1);
     // vcc.
-    int vcc  = line.indexOf(',', ++msg_id);
+    int vcc  = line.indexOf(',', msg_id + 1);
+    // internal temperature.
+    int temperature_int = line.indexOf(',', vcc + 1);
+    // external temperature.
+    int temperature_ext = line.indexOf(',', temperature_int + 1);
+    // soil
+    int soil = line.indexOf(',', temperature_ext + 1);
+    // soil
+    int light = line.indexOf(',', soil + 1);
+    // EOL
+    int eol = line.indexOf('\r', light + 1);
 
-    String msgId = line.substring(msg_id, vcc);
-    displaySolarMsgId(msgId);
+    String s;
+    
+    s = line.substring(msg_id + 1, vcc); 
+    displaySolarMsgId(s.toInt());
+
+    s = line.substring(light + 1, eol);
+    displaySolarLight(s.toInt());
     
   }
   
