@@ -6,6 +6,12 @@
                 {"name": "Digit", "type": "AMAZON.NUMBER"},
                 {"name": "Number", "type": "AMAZON.NUMBER"}
             ]
+        },
+        {
+            "intent": "ModeIntent",
+            "slots": [
+                {"name": "Mode", "type": "MODE"}
+            ]
         }
     ]
 }

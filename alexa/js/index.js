@@ -17,6 +17,14 @@ var handlers = {
         //@todo this should be an :ask and handle the answer...
     },
 
+    'ModeIntent': function () {
+        var mode = this.event.request.intent.slots.Mode.value;
+        var url = config.url + '?mode=' + mode;
+        console.log(url);
+        var that = this;
+        callEndpoint(that, url);
+    },
+
     'SetDigitIntent': function () {
         var digit = this.event.request.intent.slots.Digit.value;
         var number = this.event.request.intent.slots.Number.value;
@@ -30,23 +38,27 @@ var handlers = {
             var url = config.url + '?d' + digit +  '=' + number;
             console.log(url);
             var that = this;
-            var options = {
-              url: url,
-              rejectUnauthorized: false,
-              agent: false,
-              headers: {
-                'Authorization' : 'Bearer ' + config.token
-              }
-            };
-            request.get(options, function(error, response, body) {
-                //console.log(body);
-                var d = JSON.parse(body);
-                if (d.response.outputSpeech.type = "PlainText") {
-                     that.emit(':tell', d.response.outputSpeech.text);
-                 } else {
-                     that.emit(':tell', "Sorry, I could not contact the display");
-                 }
-            });
+            callEndpoint(that, url);
         }
     }
  };
+
+function callEndpoint(that, url) {
+    var options = {
+      url: url,
+      rejectUnauthorized: false,
+      agent: false,
+      headers: {
+        'Authorization' : 'Bearer ' + config.token
+      }
+    };
+    request.get(options, function(error, response, body) {
+        //console.log(body);
+        var d = JSON.parse(body);
+        if (d.response.outputSpeech.type = "PlainText") {
+             that.emit(':tell', d.response.outputSpeech.text);
+         } else {
+             that.emit(':tell', "Sorry, I could not contact the display");
+         }
+    });
+}

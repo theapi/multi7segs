@@ -1,2 +1,4 @@
-
+ModeIntent turn {Mode}
+ModeIntent to turn {Mode}
+ModeIntent to turn {Mode} please
 SetDigitIntent to set {Digit} to the number {Number}
