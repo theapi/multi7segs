@@ -16,6 +16,11 @@ if (getBearerToken() != $config["token"]) {
     $digit_values = filter_input_array(INPUT_GET, FILTER_SANITIZE_NUMBER_INT);
     $query = http_build_query($digit_values);
 
+    $mode = filter_input(INPUT_GET, 'mode', FILTER_SANITIZE_ENCODED);
+    if (!empty($mode)) {
+        $query .= '&mode=' . $mode;
+    }
+
     $json = file_get_contents($config["endpoint"] . '?' . $query, 0, $context);
     $data = json_decode($json);
     if (isset($data->digits)) {
