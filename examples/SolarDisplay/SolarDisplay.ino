@@ -104,6 +104,12 @@ void setup() {
       if (server.argName(i).indexOf('d') == 0) {
          String d = server.argName(i).substring(1);
          display.setDigitToNumber(d.toInt(), server.arg(i).toInt());
+      } else if (server.argName(i).indexOf("mode") == 0) {
+         if (server.arg(i) == "on") {
+           display.displaysOn();
+         } else if (server.arg(i) == "off") {
+           display.displaysOff();
+         }
       }
     }
     display.update();

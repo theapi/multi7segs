@@ -77,6 +77,7 @@ class Max72xxCA {
        */
       void setup(uint8_t dataPin, uint8_t clkPin, uint8_t latchPin);
       void displaysOn();
+      void displaysOff();
       void setDigit(uint8_t digit, uint8_t value);
       void setDigitToNumber(uint8_t digit, uint8_t index);
       void setDigitToNumber(uint8_t digit, uint8_t index, uint8_t colon);
