@@ -8,6 +8,7 @@
  *  
  */
 
+#define SUMMER_TIME 1 // @todo not hard code summer time.
  
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
@@ -363,6 +364,9 @@ void ntp() {
       // subtract seventy years:
       unsigned long unixTime = secsSince1900 - seventyYears;
 
+      if (SUMMER_TIME == 1) {
+        unixTime += 3600;
+      }
       setTime(unixTime);
       //Serial.println(minute());
 
