@@ -33,6 +33,7 @@ Denbit denbit;
 
 const byte DEBUG_LED = 16;
 
+int display_status = 0;
 unsigned int localPort = 2390;      // local port to listen for UDP packets
  
 /* Don't hardwire the IP address or we won't get the benefits of the pool.
@@ -75,6 +76,7 @@ void setup() {
   display.update();
   
   display.displaysOn();
+  display_status = 1;
   
   // Start the Over The Air programming.
   denbit.OTAsetup();
@@ -107,8 +109,10 @@ void setup() {
          display.setDigitToNumber(d.toInt(), server.arg(i).toInt());
       } else if (server.argName(i).indexOf("mode") == 0) {
          if (server.arg(i) == "on") {
+           display_status = 1;
            display.displaysOn();
          } else if (server.arg(i) == "off") {
+           display_status = 0;
            display.displaysOff();
          }
       }
@@ -177,11 +181,24 @@ void loop() {
     seconds_last = now;
     displayCurrentTime();
 
+    int ldr = analogRead(A0);
+    displayLdr(ldr);
+    if (ldr < 50) {
+      display_status = 0;
+      display.displaysOff();
+    } else if (display_status == 0 && ldr > 60) {
+      display_status = 1;
+      display.displaysOn();
+    }
+
     // Ensure still connected to the socket server.
     socketConnect(host, port);
   }
 }
 
+void displayLdr(int val) {
+  displayBlock(3, val);
+}
 
 void displayCurrentTime() {
   byte h = hour();
@@ -299,8 +316,8 @@ void handleSocketData() {
     String s;
 
     // Show the message id.
-    s = line.substring(msg_id + 1, vcc); 
-    displayBlock(3, s.toInt());
+    //s = line.substring(msg_id + 1, vcc); 
+    //displayBlock(3, s.toInt());
     
     // Show the light reading.
     s = line.substring(light + 1, eol);
