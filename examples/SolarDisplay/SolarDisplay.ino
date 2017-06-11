@@ -112,7 +112,7 @@ void setup() {
            display_status = 1;
            display.displaysOn();
          } else if (server.arg(i) == "off") {
-           display_status = 0;
+           display_status = 2; // So the ldr does not turn it back on.
            display.displaysOff();
          }
       }
@@ -183,10 +183,10 @@ void loop() {
 
     int ldr = analogRead(A0);
     displayLdr(ldr);
-    if (ldr < 50) {
+    if (ldr < 20) {
       display_status = 0;
       display.displaysOff();
-    } else if (display_status == 0 && ldr > 60) {
+    } else if (display_status == 0 && ldr > 35) {
       display_status = 1;
       display.displaysOn();
     }
