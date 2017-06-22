@@ -183,10 +183,10 @@ void loop() {
 
     int ldr = analogRead(A0);
     displayLdr(ldr);
-    if (ldr < 20) {
+    if (ldr < 10) {
       display_status = 0;
       display.displaysOff();
-    } else if (display_status == 0 && ldr > 35) {
+    } else if (display_status == 0 && ldr > 20) {
       display_status = 1;
       display.displaysOn();
     }
