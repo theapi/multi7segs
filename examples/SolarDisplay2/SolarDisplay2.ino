@@ -231,27 +231,22 @@ void displayBlock(int block, int i) {
   display.setDigitToNumber((block * 4) - 3, i % 10);
 }
 
-void displayBlockTemperature(int block, int i) {
-  // Move the number to the left so as to have degree symbol.
-  i = i * 10;
-  
-  if (i > 999) {
-    display.setDigitToNumber((block * 4), i / 1000);
+void displayBlockTemperature(int block, float f) {
+
+  // Tens
+  if (f > 9) {
+    display.setDigitToNumber((block * 4), (int) f / 10);
   } else {
     display.setDigitToNumber((block * 4), 10);
   }
 
-  if (i > 99) {
-    display.setDigitToNumber((block * 4) - 1, (i % 1000) / 100);
-  } else {
-    display.setDigitToNumber((block * 4) - 1, 10);
-  }
-  
-  if (i > 9) {
-    display.setDigitToNumber((block * 4) - 2, (i / 10) % 10);
-  } else {
-    display.setDigitToNumber((block * 4) - 2, 10);
-  }
+  // Ones, with a decimal point.
+  int ones = f / 10;
+  display.setDigitToNumber((block * 4) - 1, ones % 10, 1);
+
+  // Decimal
+  int fraction = f * 10;
+  display.setDigitToNumber((block * 4) - 2, fraction % 10);
   
   // Show degrees symbol.
   display.setDigit((block * 4) - 3, display.degrees);
