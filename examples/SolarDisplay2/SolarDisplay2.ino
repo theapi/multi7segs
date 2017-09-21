@@ -241,8 +241,7 @@ void displayBlockTemperature(int block, float f) {
   }
 
   // Ones, with a decimal point.
-  int ones = f / 10;
-  display.setDigitToNumber((block * 4) - 1, ones % 10, 1);
+  display.setDigitToNumber((block * 4) - 1,(int) f % 10, 1);
 
   // Decimal
   int fraction = f * 10;
