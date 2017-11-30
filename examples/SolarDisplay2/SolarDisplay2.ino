@@ -232,20 +232,35 @@ void displayBlock(int block, int i) {
 }
 
 void displayBlockTemperature(int block, float f) {
-
+  int tens = 10;
+  int ones = 0;
+  int decimal = 0;
+  
   // Tens
-  if (f > 9) {
-    display.setDigitToNumber((block * 4), (int) f / 10);
+  //Serial.print("tens: ");
+  if (f > 9 || f < -9) {
+    tens = (int) f / 10;
+    //Serial.print(abs(tens));
+    display.setDigitToNumber((block * 4), abs(tens));
+  } else if (f < 0) {
+    // NB temperatures less than minus 10 degrees will not have the negative symbol.
+    display.setDigit((block * 4), display.hyphen);
   } else {
     display.setDigitToNumber((block * 4), 10);
   }
 
   // Ones, with a decimal point.
-  display.setDigitToNumber((block * 4) - 1,(int) f % 10, 1);
+  //Serial.print("  ones: ");
+  ones = (int) f % 10, 1;
+  //Serial.print(abs(ones));
+  display.setDigitToNumber((block * 4) - 1, abs(ones), 1);
 
   // Decimal
-  int fraction = f * 10;
-  display.setDigitToNumber((block * 4) - 2, fraction % 10);
+  //Serial.print("  decimal: ");
+  int fraction = (f * 10) ;
+  decimal = fraction % 10;
+  //Serial.print(abs(decimal));
+  display.setDigitToNumber((block * 4) - 2, abs(decimal));
   
   // Show degrees symbol.
   display.setDigit((block * 4) - 3, display.degrees);

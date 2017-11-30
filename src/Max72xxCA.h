@@ -9,7 +9,7 @@
 
 #include "Max72xx.h"
 
-#define Max72xxCA_NUM_CHARS 16
+#define Max72xxCA_NUM_CHARS 17
 
 class Max72xxCA {
     private :
@@ -35,6 +35,7 @@ class Max72xxCA {
         B00110010, // L
         B10000000, // colon
         B01010101, // degrees
+        B00000100, // hyphen
       };
 
     public:
@@ -56,6 +57,7 @@ class Max72xxCA {
         uint8_t char_L   = _chars[13];
         uint8_t colon    = _chars[14];
         uint8_t degrees  = _chars[15];
+        uint8_t hyphen   = _chars[16];
 
       /**
        * The Max7219 driver
