@@ -29,7 +29,7 @@ void setup() {
   // initialize serial:
   Serial.begin(115200);
 
-  displayTemperature(-1.2);
+  displayTemperature(9.5);
 
 }
 
@@ -46,7 +46,7 @@ void displayTemperature(float f) {
 
   // Tens
   Serial.print("tens: ");
-  if (f > 9 || f < -9) {
+  if (f >= 10 || f <= -10) {
     tens = (int) f / 10;
     Serial.print(abs(tens));
     //display.setDigitToNumber((block * 4), abs(tens));

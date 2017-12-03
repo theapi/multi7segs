@@ -238,7 +238,7 @@ void displayBlockTemperature(int block, float f) {
   
   // Tens
   //Serial.print("tens: ");
-  if (f > 9 || f < -9) {
+  if (f >= 10 || f <= -10) {
     tens = (int) f / 10;
     //Serial.print(abs(tens));
     display.setDigitToNumber((block * 4), abs(tens));
